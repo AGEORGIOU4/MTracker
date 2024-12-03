@@ -33,14 +33,7 @@ const styles = {
   },
   account: {
     color: 'var(--ion-text-color-light)',
-  },
-  amount: {
-    fontSize: '12px',
-    color: '#000',
-    fontWeight: '500',
-    textAlign: 'right',
-    whiteSpace: 'nowrap',
-  },
+  }
 };
 
 interface TransactionCardProps {
@@ -72,7 +65,14 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ avatar, description, 
         </div>
 
         <IonLabel slot="end">
-          <span style={styles.amount}>
+          <span style=
+            {{
+              fontSize: '12px',
+              color: '#000',
+              fontWeight: '500',
+              textAlign: 'right',
+              whiteSpace: 'nowrap',
+            }}>
             {amount}
           </span>
         </IonLabel>

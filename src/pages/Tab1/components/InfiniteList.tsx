@@ -8,10 +8,6 @@ import {
 import TransactionCard from './TransactionCard';
 
 const styles = {
-  dateContainer: {
-    textAlign: 'right',
-    padding: '5px 20px',
-  },
   dateText: {
     color: 'var(--ion-text-color-light)',
   },
@@ -31,7 +27,6 @@ function InfiniteList() {
   const [items, setItems] = useState(initialTransactions);
 
   const generateItems = () => {
-
     const newTransactions = Array.from({ length: 5 }, (_, i) => ({
       id: `${items.length + i}`,
       date: new Date().toISOString().split('T')[0],
@@ -49,7 +44,7 @@ function InfiniteList() {
       <IonList>
         {items.map((item) => (
           <React.Fragment key={item.id}>
-            <div style={styles.dateContainer}>
+            <div style={{ textAlign: 'right', padding: '5px 20px' }}>
               <small style={styles.dateText}>{item.date}</small>
             </div>
             <TransactionCard
