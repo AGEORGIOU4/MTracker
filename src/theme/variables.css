@@ -42,3 +42,7 @@ http://ionicframework.com/docs/theming/ */
   --ion-color-bg: #f5f5f5;
   --ion-item-background: #f5f5f5;
 }
+
+.searchbar {
+  --box-shadow: none;
+}

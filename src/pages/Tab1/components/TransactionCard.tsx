@@ -1,13 +1,6 @@
 import React from 'react';
 import { IonAvatar, IonCard, IonCardContent, IonLabel } from '@ionic/react';
 
-interface TransactionCardProps {
-  description: string;
-  method: string;
-  price: string;
-  index: number;
-}
-
 const styles = {
   card: {
     background: "#fff",
@@ -36,12 +29,12 @@ const styles = {
     color: '#000',
     fontWeight: '600',
     margin: '0',
-    fontSize: '12px',
+    fontSize: '14px',
   },
-  method: {
+  account: {
     color: 'var(--ion-text-color-light)',
   },
-  price: {
+  amount: {
     fontSize: '12px',
     color: '#000',
     fontWeight: '500',
@@ -50,7 +43,14 @@ const styles = {
   },
 };
 
-const TransactionCard: React.FC<TransactionCardProps> = ({ description, method, price, index }) => {
+interface TransactionCardProps {
+  avatar: string,
+  description: string;
+  account: string;
+  amount: string;
+}
+
+const TransactionCard: React.FC<TransactionCardProps> = ({ avatar, description, account, amount }) => {
 
 
   return (
@@ -60,7 +60,7 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ description, method, 
       <IonCardContent style={styles.cardContent}>
         <IonAvatar slot="start" style={styles.avatar}>
           <img
-            src={'https://picsum.photos/80/80?random=' + index}
+            src={avatar}
             alt="avatar"
             style={styles.avatarImage}
           />
@@ -68,12 +68,12 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ description, method, 
 
         <div style={styles.textContainer}>
           <p style={styles.description}>{description}</p>
-          <small style={styles.method}>{method}</small>
+          <small style={styles.account}>{account}</small>
         </div>
 
         <IonLabel slot="end">
-          <span style={styles.price}>
-            {price}
+          <span style={styles.amount}>
+            {amount}
           </span>
         </IonLabel>
       </IonCardContent>
