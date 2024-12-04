@@ -67,15 +67,15 @@ const App: React.FC = () => (
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
           <IonTabButton tab="tab1" href="/tab1">
-            <IonIcon aria-hidden="true" icon={triangle} />
+            <IonIcon icon={triangle} />
             <IonLabel>Expenses</IonLabel>
           </IonTabButton>
           <IonTabButton tab="tab2" href="/tab2">
-            <IonIcon aria-hidden="true" icon={ellipse} />
+            <IonIcon icon={ellipse} />
             <IonLabel>Incomes</IonLabel>
           </IonTabButton>
           <IonTabButton tab="tab3" href="/tab3">
-            <IonIcon aria-hidden="true" icon={square} />
+            <IonIcon icon={square} />
             <IonLabel>Transfers</IonLabel>
           </IonTabButton>
         </IonTabBar>

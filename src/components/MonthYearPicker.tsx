@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { IonItem, IonList, IonSelect, IonSelectOption, IonGrid, IonRow, IonCol, IonIcon } from '@ionic/react';
-import { calendar, eye, leaf } from 'ionicons/icons';
-
+import { months } from "../utils/months"
 function MonthYearPicker() {
   // State to store selected month and year
   const [selectedMonth, setSelectedMonth] = useState('');
@@ -12,20 +11,7 @@ function MonthYearPicker() {
   const currentYear = new Date().getFullYear();
 
   // Create arrays for months and years
-  const months = [
-    { value: '01', label: 'January' },
-    { value: '02', label: 'February' },
-    { value: '03', label: 'March' },
-    { value: '04', label: 'April' },
-    { value: '05', label: 'May' },
-    { value: '06', label: 'June' },
-    { value: '07', label: 'July' },
-    { value: '08', label: 'August' },
-    { value: '09', label: 'September' },
-    { value: '10', label: 'October' },
-    { value: '11', label: 'November' },
-    { value: '12', label: 'December' },
-  ];
+
 
   const years: string[] = [];
   for (let i = 0; i < 12; i++) {

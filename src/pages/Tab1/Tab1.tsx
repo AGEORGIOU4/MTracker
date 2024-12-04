@@ -1,9 +1,8 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from './components/ExploreContainer';
-import './Tab1.css';
-import { IonFab, IonFabButton, IonIcon } from '@ionic/react';
-import { add } from 'ionicons/icons';
+import { IonContent, IonHeader, IonPage, IonToolbar } from '@ionic/react';
 import SearchBar from '../../components/SearchBar';
+import ExploreContainer from './components/ExploreContainer';
+
+import './Tab1.css';
 
 
 const Tab1: React.FC = () => {
@@ -11,20 +10,11 @@ const Tab1: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-
           <SearchBar />
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Tab 1</IonTitle>
-          </IonToolbar>
-        </IonHeader>
         <ExploreContainer name="Tab 1 page" />
-
-
-
       </IonContent>
     </IonPage>
   );

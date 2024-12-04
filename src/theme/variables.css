@@ -3,7 +3,7 @@ http://ionicframework.com/docs/theming/ */
 /* Default light theme variables */
 :root {
   /* Primary Colors */
-  --ion-color-primary: #b22dd7;
+  --ion-color-primary: #007aff;
   --ion-color-primary-rgb: 56, 128, 255;
   --ion-color-primary-contrast: #ffffff;
   --ion-color-primary-contrast-rgb: 255, 255, 255;
