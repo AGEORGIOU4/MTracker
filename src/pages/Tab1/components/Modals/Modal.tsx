@@ -17,7 +17,7 @@ interface ModalProps {
 const Modal: React.FC<ModalProps> = ({ isOpen, setIsOpen }) => {
   return (
     <>
-      <IonModal isOpen={isOpen}>
+      <IonModal isOpen={isOpen} aria-hidden="false">
         <IonHeader>
           <IonToolbar>
             <IonTitle>Add Transaction</IonTitle>

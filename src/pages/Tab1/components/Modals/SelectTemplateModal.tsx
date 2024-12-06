@@ -14,7 +14,7 @@ import { transaction_categories } from '../../../../utils/options';
 
 const styles = {
   button: {
-    margin: "10px auto",
+    margin: "20px auto"
   },
 
 };
@@ -23,12 +23,13 @@ interface ModalProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   handleSkip: () => void;
+  handleSelectTemplate: (item: any) => void;
 }
 
-export const SelectTemplateModal: React.FC<ModalProps> = ({ isOpen, setIsOpen, handleSkip }) => {
+export const SelectTemplateModal: React.FC<ModalProps> = ({ isOpen, setIsOpen, handleSkip, handleSelectTemplate }) => {
   return (
     <>
-      <IonModal isOpen={isOpen}>
+      <IonModal isOpen={isOpen} aria-hidden="false">
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
@@ -36,7 +37,7 @@ export const SelectTemplateModal: React.FC<ModalProps> = ({ isOpen, setIsOpen, h
                 Cancel
               </IonButton>
             </IonButtons>
-            <IonTitle>Select Type</IonTitle>
+
             <IonButtons slot="end">
               <IonButton onClick={() => handleSkip()}>
                 Skip
@@ -48,10 +49,8 @@ export const SelectTemplateModal: React.FC<ModalProps> = ({ isOpen, setIsOpen, h
           {transaction_categories.map((transaction, index) => (
             <IonButton
               key={index}
-              onClick={() => console.log(`Selected: ${transaction.value}`)}
-
+              onClick={() => handleSelectTemplate(transaction)}
               expand="block"
-              color={"primary"}
               style={styles.button}
             >
               <IonIcon icon={transaction.icon} slot="start" />

@@ -5,7 +5,7 @@ export const transactions = [
   { id: '4', date: '2024-10-10', description: 'Coffee', account: 'Cash', amount: -15, owner: 'Jane' },
   { id: '5', date: '2024-10-15', description: 'Utility Bill', account: 'Direct Debit', amount: -100, owner: 'John' },
 ];
-import { fastFoodOutline, cartOutline, carOutline, homeOutline, schoolOutline, refreshOutline, walletOutline } from 'ionicons/icons';
+import { fastFoodOutline, cartOutline, carOutline, homeOutline, schoolOutline, refreshOutline, walletOutline, cashOutline } from 'ionicons/icons';
 
 export const transaction_categories = [
   { label: 'Food/Coffee', value: 'Food/Coffee', icon: fastFoodOutline },
@@ -16,8 +16,14 @@ export const transaction_categories = [
   { label: 'Schools/Lessons', value: 'Schools/Lessons', icon: schoolOutline },
   { label: 'Subscriptions', value: 'Subscriptions', icon: refreshOutline },
   { label: 'Loans', value: 'Loans', icon: walletOutline },
+  { label: 'Other', value: 'Other', icon: cashOutline },
 ];
 
+export const transaction_types = [
+  { label: 'Expense', value: 'Expense' },
+  { label: 'Income', value: 'Income' },
+  { label: 'Transfer', value: 'Transfer' }
+]
 export const transaction_methods = [
   { label: 'Revolut', value: 'Revolut' },
   { label: 'Hellenic Bank', value: 'Hellenic Bank' },
@@ -29,4 +35,10 @@ export const transaction_methods = [
 export const transaction_accounts = [
   { label: 'Personal', value: 'Personal' },
   { label: 'Joint', value: 'Joint' },
+]
+
+export const transaction_users = [
+  { label: 'Andreas', value: 'Andreas' },
+  { label: 'Constantina', value: 'Constantina' },
+  { label: 'Both', value: 'Both' },
 ]

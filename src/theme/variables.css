@@ -39,10 +39,14 @@ http://ionicframework.com/docs/theming/ */
   --ion-button-secondary-background: var(--ion-color-secondary);
   --ion-button-secondary-text-color: var(--ion-color-secondary-contrast);
 
-  --ion-color-bg: #f5f5f5;
-  --ion-item-background: #f5f5f5;
+
 }
 
 .searchbar {
   --box-shadow: none;
+}
+
+:root {
+  --background: #f5f5f5;
+  /* Set your desired background color here */
 }

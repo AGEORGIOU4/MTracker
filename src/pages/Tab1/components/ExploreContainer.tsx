@@ -16,13 +16,24 @@ const ExploreContainer: React.FC<ContainerProps> = ({ name }) => {
   const [selectTemplateModalVisible, setSelectTemplateModalVisible] = useState(false);
   const [detailsModalVisible, setDetailsModalVisible] = useState(false);
 
+  const [selectedTemplate, setSelectedTemplate] = useState("");
+
   const handleClick = () => {
     setSelectTemplateModalVisible(true);
   }
 
   const handleSkip = () => {
+    handleProceed()
+  }
+
+  const handleProceed = () => {
     setSelectTemplateModalVisible(false);
     setDetailsModalVisible(true);
+  }
+
+  const handleSelectTemplate = (e: any) => {
+    handleProceed()
+    setSelectedTemplate(e.value);
   }
 
   return (
@@ -30,8 +41,8 @@ const ExploreContainer: React.FC<ContainerProps> = ({ name }) => {
       <MonthYearPicker />
       <InfiniteList />
       <FloatingButton handleClick={handleClick} />
-      <SelectTemplateModal isOpen={selectTemplateModalVisible} setIsOpen={setSelectTemplateModalVisible} handleSkip={handleSkip} />
-      <DetailsModal isOpen={detailsModalVisible} setIsOpen={setDetailsModalVisible} />
+      <SelectTemplateModal isOpen={selectTemplateModalVisible} setIsOpen={setSelectTemplateModalVisible} handleSkip={handleSkip} handleSelectTemplate={handleSelectTemplate} />
+      <DetailsModal isOpen={detailsModalVisible} setIsOpen={setDetailsModalVisible} selectedTemplate={selectedTemplate} />
     </>
   );
 };
