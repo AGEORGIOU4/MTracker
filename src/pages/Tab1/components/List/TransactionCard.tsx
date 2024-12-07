@@ -3,7 +3,7 @@ import { IonAvatar, IonCard, IonCardContent, IonLabel } from '@ionic/react';
 
 const styles = {
   card: {
-    background: "#f5f5f5",
+    background: "#f9f9f9",
     borderRadius: '20px',
     boxShadow: 'none',
     transition: 'transform 0.3s ease-in-out',
@@ -32,19 +32,18 @@ const styles = {
     fontSize: '14px',
     marginBottom: "4px"
   },
-
   categoryAccountContainer: {
     display: 'flex',
     justifyContent: 'space-between',
     width: '100%',
   },
-  category: {
-    background: "#d57292",
+  category: (color: string) => ({
+    background: color,
     fontSize: '12px',
     color: 'white',
     padding: "5px",
-    borderRadius: "15px"
-  },
+    borderRadius: "15px",
+  }),
   label: {
     display: 'flex',
     flexDirection: 'column',
@@ -70,9 +69,10 @@ interface TransactionCardProps {
   category: string;
   account: string;
   amount: string;
+  color: string;
 }
 
-const TransactionCard: React.FC<TransactionCardProps> = ({ avatar, description, category, account, amount }) => {
+const TransactionCard: React.FC<TransactionCardProps> = ({ avatar, description, category, account, amount, color }) => {
   return (
     <IonCard
       style={styles.card}
@@ -88,7 +88,7 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ avatar, description, 
 
         <div style={styles.textContainer}>
           <p style={styles.description}>{description}</p>
-          <small style={styles.category}>{category}</small>
+          <small style={styles.category(color)}>{category}</small>
         </div>
 
         <IonLabel slot="end" style={styles.label}>
