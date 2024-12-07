@@ -14,21 +14,23 @@ import {
   IonCard,
   IonCardContent,
 } from '@ionic/react';
-import { transaction_categories } from '../../../../utils/options';
+import { categories } from '../../../../utils/options';
 
 const styles = {
-  buttonCard: {
+  buttonCard: (color: string) => ({
     aspectRatio: 1 / 1,
     width: "100%",
     margin: "auto", // Minimal margin for spacing
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-
-  },
+    //background: color,
+    color: "#007aff"
+  }),
   cardContent: {
     textAlign: "center",
-    padding: 0, // Remove padding inside the card
+    padding: 0,
+    fontSize: "15px"
   },
 };
 
@@ -56,6 +58,8 @@ export const SelectTemplateModal: React.FC<ModalProps> = ({
               </IonButton>
             </IonButtons>
 
+            <IonTitle>Select Type</IonTitle>
+
             <IonButtons slot="end">
               <IonButton onClick={() => handleSkip()}>
                 Skip
@@ -66,12 +70,12 @@ export const SelectTemplateModal: React.FC<ModalProps> = ({
         <IonContent className="ion-padding">
           <IonGrid>
             <IonRow>
-              {transaction_categories.map((transaction, index) => (
-                <IonCol size="6" key={index}>
+              {categories.map((transaction, index) => (
+                <IonCol size="4" key={index}>
                   <IonCard
                     button
                     onClick={() => handleSelectTemplate(transaction)}
-                    style={styles.buttonCard}
+                    style={styles.buttonCard(transaction.color)}
                   >
                     <IonCardContent style={styles.cardContent}>
                       <IonIcon icon={transaction.icon} />
