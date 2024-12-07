@@ -5,12 +5,13 @@ import {
   IonGrid, IonRow, IonCol, IonIcon, IonDatetime
 } from '@ionic/react';
 import { person, wallet, pricetag, card, syncCircle } from 'ionicons/icons';
-import { accounts, categories, methods, types, users } from '../../../../utils/options';
+import { accounts, expenses_categories, income_categories, methods, transfers_categories, types, users } from '../../../../utils/options';
 import { doc, setDoc } from 'firebase/firestore';
 import { db } from '../../../../utils/firebase';
 import { v4 as uuidv4 } from 'uuid';
 
 interface ModalProps {
+  type: string;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   selectedTemplate: string;
@@ -18,21 +19,27 @@ interface ModalProps {
 }
 
 export const EditDetailsModal: React.FC<ModalProps> = ({
+  type,
   isOpen,
   setIsOpen,
   selectedTemplate,
   refreshTransactions
 }) => {
-  // State variables to manage form inputs
   const [user, setUser] = useState('Andreas');
-  const [type, setType] = useState('Expense');
   const [category, setCategory] = useState(selectedTemplate || 'Other');
   const [method, setMethod] = useState('Revolut');
-  const [account, setAccount] = useState('Joint');
+  const [account, setAccount] = useState(type === "Expenses" ? 'Joint' : "Personal");
   const [date, setDate] = useState(new Date().toISOString());
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState('');
 
+  const descriptionInputRef = React.useRef<HTMLIonInputElement>(null);
+
+  useEffect(() => {
+    if (isOpen && descriptionInputRef.current) {
+      descriptionInputRef.current.setFocus();
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     setCategory(selectedTemplate || "Other")
@@ -40,7 +47,7 @@ export const EditDetailsModal: React.FC<ModalProps> = ({
 
   const resetFields = () => {
     setUser('Andreas');
-    setType('Expense');
+    // setType('Expenses');
     setCategory('Other');
     setMethod('Revolut');
     setAccount('Joint');
@@ -117,27 +124,6 @@ export const EditDetailsModal: React.FC<ModalProps> = ({
               </IonCol>
             </IonRow>
 
-            {/* Type */}
-            <IonRow>
-              <IonCol size="12">
-                <IonItem>
-                  <IonIcon slot="start" icon={wallet} color='primary' />
-                  <IonSelect
-                    label="Type"
-                    value={type}
-                    onIonChange={(e) => setType(e.detail.value)}
-                    labelPlacement="stacked"
-                  >
-                    {types.map((t, index) => (
-                      <IonSelectOption key={index} value={t.value}>
-                        {t.label}
-                      </IonSelectOption>
-                    ))}
-                  </IonSelect>
-                </IonItem>
-              </IonCol>
-            </IonRow>
-
             {/* Category */}
             <IonRow>
               <IonCol size="12">
@@ -149,7 +135,19 @@ export const EditDetailsModal: React.FC<ModalProps> = ({
                     onIonChange={(e) => setCategory(e.detail.value)}
                     labelPlacement="stacked"
                   >
-                    {categories.map((c, index) => (
+                    {type === "Expenses" && expenses_categories.map((c, index) => (
+                      <IonSelectOption key={index} value={c.value}>
+                        {c.label}
+                      </IonSelectOption>
+                    ))}
+
+                    {type === "Income" && income_categories.map((c, index) => (
+                      <IonSelectOption key={index} value={c.value}>
+                        {c.label}
+                      </IonSelectOption>
+                    ))}
+
+                    {type === "Transfers" && transfers_categories.map((c, index) => (
                       <IonSelectOption key={index} value={c.value}>
                         {c.label}
                       </IonSelectOption>
@@ -220,11 +218,13 @@ export const EditDetailsModal: React.FC<ModalProps> = ({
               <IonCol size="8">
                 <IonItem>
                   <IonInput
+                    ref={descriptionInputRef}
                     label="Description"
                     labelPlacement="stacked"
                     placeholder="Enter transaction"
                     value={description}
                     onIonInput={(e) => setDescription(e.detail.value!)}
+                    autoFocus
                   />
                 </IonItem>
               </IonCol>

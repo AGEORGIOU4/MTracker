@@ -7,14 +7,13 @@ import { SelectTemplateModal } from './Modals/SelectTemplateModal';
 import { EditDetailsModal } from './Modals/EditDetailsModal';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../../utils/firebase';
-import { ViewDetailsModal } from './Modals/ViewDetailsModal';
 
 
 interface ContainerProps {
-  name: string;
+  type: string;
 }
 
-const ExploreContainer: React.FC<ContainerProps> = ({ name }) => {
+const ExploreContainer: React.FC<ContainerProps> = ({ type }) => {
   const [selectTemplateModalVisible, setSelectTemplateModalVisible] = useState(false);
   const [viewDetailsModalVisible, setViewDetailsModalVisible] = useState(false);
   const [editDetailsModalVisible, setEditDetailsModalVisible] = useState(false);
@@ -23,8 +22,6 @@ const ExploreContainer: React.FC<ContainerProps> = ({ name }) => {
   const [selectedYear, setSelectedYear] = useState("");
 
   const [selectedTemplate, setSelectedTemplate] = useState("");
-  const [selectedTransaction, setSelectedTransaction] = useState("");
-
 
   const [items, setItems] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -44,14 +41,16 @@ const ExploreContainer: React.FC<ContainerProps> = ({ name }) => {
 
       querySnapshot.forEach((doc) => {
         const transaction = doc.data();
+
         if (transaction.date) {
           const date = new Date(transaction.date);
-          if (
-            (selectedYear && date.getFullYear().toString() === selectedYear) &&
-            (selectedMonth ? (date.getMonth() + 1).toString() === selectedMonth : true)
-          ) {
-            data.push(transaction);
+          if ((selectedYear && date.getFullYear().toString() === selectedYear) &&
+            (selectedMonth ? (date.getMonth() + 1).toString() === selectedMonth : true)) {
+            if (type === transaction.type) {
+              data.push(transaction);
+            }
           }
+
         }
       });
 
@@ -98,10 +97,10 @@ const ExploreContainer: React.FC<ContainerProps> = ({ name }) => {
   return (
     <>
       <MonthYearPicker onChange={handleDateChange} />
-      <TransactionsList items={items} loading={loading} error={error} refreshTransactions={refreshTransactions} />
+      <TransactionsList type={type} items={items} loading={loading} error={error} refreshTransactions={refreshTransactions} />
       <FloatingButton handleClick={handleClick} />
-      <SelectTemplateModal isOpen={selectTemplateModalVisible} setIsOpen={setSelectTemplateModalVisible} handleSkip={handleSkip} handleSelectTemplate={handleSelectTemplate} />
-      <EditDetailsModal isOpen={editDetailsModalVisible} setIsOpen={setEditDetailsModalVisible} selectedTemplate={selectedTemplate} refreshTransactions={refreshTransactions} />
+      <SelectTemplateModal type={type} isOpen={selectTemplateModalVisible} setIsOpen={setSelectTemplateModalVisible} handleSkip={handleSkip} handleSelectTemplate={handleSelectTemplate} />
+      <EditDetailsModal type={type} isOpen={editDetailsModalVisible} setIsOpen={setEditDetailsModalVisible} selectedTemplate={selectedTemplate} refreshTransactions={refreshTransactions} />
     </>
   );
 };

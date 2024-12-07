@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { IonContent, IonList, IonSpinner, IonText } from '@ionic/react';
 import TransactionCard from './TransactionCard';
-import { avatars, categories } from '../../../../utils/options';
+import { avatars, expenses_categories, income_categories, transfers_categories } from '../../../../utils/options';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../../../utils/firebase';
 import { formatDateToDDMMYY } from '../../../../utils/functions';
@@ -14,7 +14,7 @@ const styles: { list: React.CSSProperties, dateDiv: React.CSSProperties; dateTex
   errorText: { color: "red", textAlign: "center", marginTop: "20px" },
 };
 
-function TransactionsList({ items, loading, error, refreshTransactions }: { items: any[]; loading: boolean, error: string | null, refreshTransactions: () => void }) {
+function TransactionsList({ type, items, loading, error, refreshTransactions }: { type: string, items: any[]; loading: boolean, error: string | null, refreshTransactions: () => void }) {
   if (loading) {
     return (
       <IonContent>
@@ -54,7 +54,16 @@ function TransactionsList({ items, loading, error, refreshTransactions }: { item
                 amount={"€".concat((parseFloat(item.amount) || 0).toFixed(2))}
                 date={item.date}
                 avatar={avatars.find((avatar) => avatar.user === item.user)?.photo || 'https://via.placeholder.com/40'}
-                color={categories.find((category) => category.value === item.category)?.color || "#dedede"}
+                color={
+                  type === "Expenses"
+                    ? expenses_categories.find((category) => category.value === item.category)?.color || "#dedede"
+                    : type === "Income"
+                      ? income_categories.find((category) => category.value === item.category)?.color || "#dedede"
+                      : type === "Transfers"
+                        ? transfers_categories.find((category) => category.value === item.category)?.color || "#dedede"
+                        : "#dedede"
+                }
+
                 refreshTransactions={refreshTransactions}
               />
             </React.Fragment>

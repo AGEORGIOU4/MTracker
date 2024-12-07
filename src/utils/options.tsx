@@ -1,13 +1,13 @@
-import { fastFoodOutline, cartOutline, carOutline, homeOutline, schoolOutline, refreshOutline, walletOutline, cashOutline } from 'ionicons/icons';
+import { fastFoodOutline, cartOutline, carOutline, homeOutline, schoolOutline, refreshOutline, walletOutline, cashOutline, appsOutline, giftOutline, heartOutline, cardOutline, arrowForwardCircleOutline } from 'ionicons/icons';
 
 export const dummyTransactions = [
-  { id: '0', date: '2024-09-01', description: 'Groceries', category: "Shopping", type: "Expense", method: 'Revolut', amount: "50", account: "Personal", user: 'Andreas' },
-  { id: '1', date: '2024-10-01', description: 'Food/Coffee', category: "Groceries", type: "Expense", method: 'BoC', amount: "50", account: "Joint", user: 'Andreas' },
-  { id: '2', date: '2024-10-02', description: 'Gas', category: "Transportation", type: "Expense", method: 'HB', amount: "20", account: "Joint", user: 'Constantina' },
-  { id: '3', date: '2024-10-05', description: 'Salary', category: "Utilities", type: "Expense", method: 'Revolut', amount: "200", account: "Joint", user: 'Andreas' },
-  { id: '4', date: '2024-10-10', description: 'Coffee', category: "Schools/Lessons", type: "Expense", method: 'Cash', amount: "15", account: "Personal", user: 'Constantina' },
-  { id: '5', date: '2024-10-15', description: 'Schools/Lessons', category: "Subscriptions", type: "Expense", method: 'Revolut', account: "Joint", amount: "100", user: 'Andreas' },
-  { id: '6', date: '2021-10-15', description: 'Utility Bill', category: "Loans", type: "Expense", method: 'BoC', amount: "100", account: "Joint", owner: 'John', user: 'Andreas' },
+  { id: '0', date: '2024-09-01', description: 'Groceries', category: "Shopping", type: "Expenses", method: 'Revolut', amount: "50", account: "Personal", user: 'Andreas' },
+  { id: '1', date: '2024-10-01', description: 'Food/Coffee', category: "Groceries", type: "Expenses", method: 'BoC', amount: "50", account: "Joint", user: 'Andreas' },
+  { id: '2', date: '2024-10-02', description: 'Gas', category: "Transportation", type: "Expenses", method: 'HB', amount: "20", account: "Joint", user: 'Constantina' },
+  { id: '3', date: '2024-10-05', description: 'Salary', category: "Utilities", type: "Expenses", method: 'Revolut', amount: "200", account: "Joint", user: 'Andreas' },
+  { id: '4', date: '2024-10-10', description: 'Coffee', category: "Schools/Lessons", type: "Expenses", method: 'Cash', amount: "15", account: "Personal", user: 'Constantina' },
+  { id: '5', date: '2024-10-15', description: 'Schools/Lessons', category: "Subscriptions", type: "Expenses", method: 'Revolut', account: "Joint", amount: "100", user: 'Andreas' },
+  { id: '6', date: '2021-10-15', description: 'Utility Bill', category: "Loans", type: "Expenses", method: 'BoC', amount: "100", account: "Joint", owner: 'John', user: 'Andreas' },
 ];
 
 export const avatars = [
@@ -15,7 +15,7 @@ export const avatars = [
   { user: 'Constantina', photo: 'https://ui-avatars.com/api/?name=COnstantina+Hadjianastasi&background=9b15e2&color=fff' }
 ]
 
-export const categories = [
+export const expenses_categories = [
   { label: 'Food/Coffee', value: 'Food/Coffee', icon: fastFoodOutline, color: '#FF6B6B' }, // Soft Red
   { label: 'Shopping', value: 'Shopping', icon: cartOutline, color: '#48C774' }, // Soft Green
   { label: 'Transportation', value: 'Transportation', icon: carOutline, color: '#4FC3F7' }, // Soft Blue
@@ -27,8 +27,27 @@ export const categories = [
   { label: 'Other', value: 'Other', icon: cashOutline, color: '#BDBDBD' }, // Soft Gray
 ];
 
+export const income_categories = [
+  { label: 'Salary', value: 'Salary', icon: walletOutline, color: '#FF6B6B' }, // Soft Red
+  { label: 'Freelance', value: 'Freelance', icon: appsOutline, color: '#48C774' }, // Soft Green
+  { label: 'Contributions', value: 'Contributions', icon: cashOutline, color: '#4FC3F7' }, // Soft Blue
+  { label: 'Teaching', value: 'Teaching/Lessons', icon: schoolOutline, color: '#FFD54F' }, // Soft Yellow
+  { label: 'Gift', value: 'Gift', icon: giftOutline, color: '#9575CD' }, // Soft Purple
+  { label: 'Donations', value: 'Donations', icon: heartOutline, color: '#F48FB1' }, // Soft Pink
+];
+
+
+
+export const transfers_categories = [
+  { label: 'Savings', value: 'Savings', icon: walletOutline, color: '#FF6B6B' }, // Soft Red
+  { label: 'Payments', value: 'Payments', icon: cardOutline, color: '#48C774' }, // Soft Green
+  { label: 'Contributions', value: 'Contributions', icon: arrowForwardCircleOutline, color: '#4FC3F7' }, // Soft Blue
+];
+
+
+
 export const types = [
-  { label: 'Expense', value: 'Expense' },
+  { label: 'Expenses', value: 'Expenses' },
   { label: 'Income', value: 'Income' },
   { label: 'Transfer', value: 'Transfer' }
 ]
