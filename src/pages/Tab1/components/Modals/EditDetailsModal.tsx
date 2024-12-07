@@ -4,32 +4,18 @@ import {
   IonTitle, IonList, IonItem, IonSelect, IonSelectOption, IonInput,
   IonGrid, IonRow, IonCol, IonIcon, IonDatetime
 } from '@ionic/react';
-import { person, wallet, pricetag, card, syncCircle } from 'ionicons/icons';
-import { accounts, expenses_categories, income_categories, methods, transfers_categories, types, users } from '../../../../utils/options';
+import { person, pricetag, card, syncCircle } from 'ionicons/icons';
+import { accounts, expenses_categories, income_categories, methods, transfers_categories, users } from '../../../../utils/options';
 import { doc, setDoc } from 'firebase/firestore';
 import { db } from '../../../../utils/firebase';
 import { v4 as uuidv4 } from 'uuid';
 
-interface ModalProps {
-  type: string;
-  isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
-  selectedTemplate: string;
-  refreshTransactions: () => void;
-}
-
-export const EditDetailsModal: React.FC<ModalProps> = ({
-  type,
-  isOpen,
-  setIsOpen,
-  selectedTemplate,
-  refreshTransactions
-}) => {
+export const EditDetailsModal: React.FC<ModalProps> = ({ type, isOpen, setIsOpen, selectedTemplate, refreshTransactions }) => {
   const [user, setUser] = useState('Andreas');
   const [category, setCategory] = useState(selectedTemplate || 'Other');
   const [method, setMethod] = useState('Revolut');
   const [account, setAccount] = useState(type === "Expenses" ? 'Joint' : "Personal");
-  const [date, setDate] = useState(new Date().toISOString());
+  const [date, setDate] = useState<any>(new Date().toISOString());
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState('');
 
@@ -42,16 +28,15 @@ export const EditDetailsModal: React.FC<ModalProps> = ({
   }, [isOpen]);
 
   useEffect(() => {
-    setCategory(selectedTemplate || "Other")
-  }, [selectedTemplate])
+    setCategory(selectedTemplate || "Other");
+  }, [selectedTemplate]);
 
   const resetFields = () => {
     setUser('Andreas');
-    // setType('Expenses');
     setCategory('Other');
     setMethod('Revolut');
     setAccount('Joint');
-    setDate(new Date().toISOString());
+    setDate(new Date().toISOString()); // Reset date to current date
     setDescription('');
     setAmount('');
   };
@@ -59,7 +44,7 @@ export const EditDetailsModal: React.FC<ModalProps> = ({
   const handleSave = async () => {
     const id = uuidv4();
     const newTransaction = {
-      id: id,
+      id,
       user,
       type,
       category,
@@ -76,7 +61,6 @@ export const EditDetailsModal: React.FC<ModalProps> = ({
         ...newTransaction,
         timestamp: new Date(),
       });
-
     } catch (error) {
       console.error('Error saving transaction:', error);
     }
@@ -103,6 +87,7 @@ export const EditDetailsModal: React.FC<ModalProps> = ({
       <IonContent className="ion-padding">
         <IonList>
           <IonGrid>
+
             {/* User */}
             <IonRow>
               <IonCol size="12">
@@ -241,17 +226,26 @@ export const EditDetailsModal: React.FC<ModalProps> = ({
               </IonCol>
             </IonRow>
 
-            {/* Save Button */}
+            {/* Reset Button (optional) */}
             <IonRow>
               <IonCol size="12">
-                <IonButton expand="block" onClick={handleSave}>
-                  Save
+                <IonButton expand="block" onClick={resetFields}>
+                  Reset
                 </IonButton>
               </IonCol>
             </IonRow>
+
           </IonGrid>
         </IonList>
       </IonContent>
     </IonModal>
   );
 };
+
+interface ModalProps {
+  type: string;
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+  selectedTemplate: string;
+  refreshTransactions: () => void;
+}
