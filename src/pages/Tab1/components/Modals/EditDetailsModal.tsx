@@ -229,8 +229,8 @@ export const EditDetailsModal: React.FC<ModalProps> = ({ type, isOpen, setIsOpen
             {/* Reset Button (optional) */}
             <IonRow>
               <IonCol size="12">
-                <IonButton expand="block" onClick={resetFields}>
-                  Reset
+                <IonButton expand="block" onClick={handleSave}>
+                  Save
                 </IonButton>
               </IonCol>
             </IonRow>

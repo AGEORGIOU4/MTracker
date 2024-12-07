@@ -1,26 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import {
-  IonItem,
-  IonList,
-  IonSelect,
-  IonSelectOption,
-  IonGrid,
-  IonRow,
-  IonCol,
-} from '@ionic/react';
+import { useState, useEffect } from 'react';
+import { IonItem, IonList, IonSelect, IonSelectOption, IonGrid, IonRow, IonCol } from '@ionic/react';
 import { months } from '../utils/months';
 
-const styles = {
-  list: {
-    marginBottom: '10px',
-  },
-};
-
-interface MonthYearPickerProps {
-  onChange: (selectedMonth: string, selectedYear: string) => void;
-}
-
-function MonthYearPicker({ onChange }: MonthYearPickerProps) {
+export default function MonthYearPicker({ onChange }: MonthYearPickerProps) {
   const [selectedMonth, setSelectedMonth] = useState('');
   const [selectedYear, setSelectedYear] = useState('');
 
@@ -93,4 +75,12 @@ function MonthYearPicker({ onChange }: MonthYearPickerProps) {
   );
 }
 
-export default MonthYearPicker;
+const styles = {
+  list: {
+    marginBottom: '10px',
+  },
+};
+
+interface MonthYearPickerProps {
+  onChange: (selectedMonth: string, selectedYear: string) => void;
+}

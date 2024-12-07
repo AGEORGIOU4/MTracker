@@ -16,32 +16,6 @@ import {
 } from '@ionic/react';
 import { expenses_categories, income_categories, transfers_categories } from '../../../../utils/options';
 
-const styles = {
-  buttonCard: (color: string) => ({
-    aspectRatio: 1 / 1,
-    width: "100%",
-    margin: "auto", // Minimal margin for spacing
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    //background: color,
-    color: "#007aff"
-  }),
-  cardContent: {
-    textAlign: "center",
-    padding: 0,
-    fontSize: "15px"
-  },
-};
-
-interface ModalProps {
-  type: string;
-  isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
-  handleSkip: () => void;
-  handleSelectTemplate: (item: any) => void;
-}
-
 export const SelectTemplateModal: React.FC<ModalProps> = ({
   type,
   isOpen,
@@ -124,3 +98,29 @@ export const SelectTemplateModal: React.FC<ModalProps> = ({
     </>
   );
 };
+
+const styles = {
+  buttonCard: (color: string) => ({
+    aspectRatio: 1 / 1,
+    width: "100%",
+    margin: "auto", // Minimal margin for spacing
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    //background: color,
+    color: "#007aff"
+  }),
+  cardContent: {
+    textAlign: "center",
+    padding: 0,
+    fontSize: "15px"
+  },
+};
+
+interface ModalProps {
+  type: string;
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+  handleSkip: () => void;
+  handleSelectTemplate: (item: any) => void;
+}

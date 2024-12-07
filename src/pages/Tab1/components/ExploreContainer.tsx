@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import FloatingButton from '../../../components/FloatingButton';
 
 import MonthYearPicker from '../../../components/MonthYearPicker';
 import TransactionsList from './List/TransactionsList';
@@ -7,13 +6,9 @@ import { SelectTemplateModal } from './Modals/SelectTemplateModal';
 import { EditDetailsModal } from './Modals/EditDetailsModal';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../../utils/firebase';
+import { FloatingButton } from '../../../components/FloatingButton';
 
-
-interface ContainerProps {
-  type: string;
-}
-
-const ExploreContainer: React.FC<ContainerProps> = ({ type }) => {
+export const ExploreContainer: React.FC<ContainerProps> = ({ type, searchQuery }) => {
   const [selectTemplateModalVisible, setSelectTemplateModalVisible] = useState(false);
   const [viewDetailsModalVisible, setViewDetailsModalVisible] = useState(false);
   const [editDetailsModalVisible, setEditDetailsModalVisible] = useState(false);
@@ -24,8 +19,25 @@ const ExploreContainer: React.FC<ContainerProps> = ({ type }) => {
   const [selectedTemplate, setSelectedTemplate] = useState("");
 
   const [items, setItems] = useState<any[]>([]);
+  const [filteredItems, setFilteredItems] = useState<any[]>([]);
+
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const filtered = items.filter((item) => {
+      return (
+        item.account.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.method.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.type.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.user.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    });
+    setFilteredItems(filtered);
+
+  }, [searchQuery]);
 
   useEffect(() => {
     fetchData();
@@ -97,7 +109,7 @@ const ExploreContainer: React.FC<ContainerProps> = ({ type }) => {
   return (
     <>
       <MonthYearPicker onChange={handleDateChange} />
-      <TransactionsList type={type} items={items} loading={loading} error={error} refreshTransactions={refreshTransactions} />
+      <TransactionsList type={type} items={searchQuery.length > 2 ? filteredItems : items} loading={loading} error={error} refreshTransactions={refreshTransactions} />
       <FloatingButton handleClick={handleClick} />
       <SelectTemplateModal type={type} isOpen={selectTemplateModalVisible} setIsOpen={setSelectTemplateModalVisible} handleSkip={handleSkip} handleSelectTemplate={handleSelectTemplate} />
       <EditDetailsModal type={type} isOpen={editDetailsModalVisible} setIsOpen={setEditDetailsModalVisible} selectedTemplate={selectedTemplate} refreshTransactions={refreshTransactions} />
@@ -105,4 +117,7 @@ const ExploreContainer: React.FC<ContainerProps> = ({ type }) => {
   );
 };
 
-export default ExploreContainer;
+interface ContainerProps {
+  type: string;
+  searchQuery: string;
+}
