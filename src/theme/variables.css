@@ -53,8 +53,7 @@ ion-toolbar {
 }
 
 .searchbar {
-  --box-shadow: none;
-  margin-top: 10px;
+  margin: 12px auto;
 }
 
 :root {
