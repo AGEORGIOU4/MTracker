@@ -83,6 +83,20 @@ export const ViewDetailsModal: React.FC<ModalProps> = ({ isOpen, setIsOpen, sele
         <IonContent className="ion-padding">
           <IonList>
             <IonGrid>
+
+              {/* Date */}
+              <IonRow>
+                <IonCol size="12">
+                  <IonItem>
+                    <IonDatetimeButton datetime="datetime"></IonDatetimeButton>
+
+                    <IonModal keepContentsMounted={true}>
+                      <IonDatetime id="datetime" value={selectedTransaction?.date}></IonDatetime>
+                    </IonModal>
+                  </IonItem>
+                </IonCol>
+              </IonRow>
+
               {/* User */}
               <IonRow>
                 <IonCol size="12">
@@ -133,18 +147,7 @@ export const ViewDetailsModal: React.FC<ModalProps> = ({ isOpen, setIsOpen, sele
                 </IonCol>
               </IonRow>
 
-              {/* Date */}
-              <IonRow>
-                <IonCol size="12">
-                  <IonItem>
-                    <IonDatetimeButton datetime="datetime"></IonDatetimeButton>
 
-                    <IonModal keepContentsMounted={true}>
-                      <IonDatetime id="datetime" value={selectedTransaction?.date}></IonDatetime>
-                    </IonModal>
-                  </IonItem>
-                </IonCol>
-              </IonRow>
 
               {/* Description and Amount */}
               <IonRow>

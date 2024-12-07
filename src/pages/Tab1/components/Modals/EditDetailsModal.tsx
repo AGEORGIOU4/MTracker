@@ -88,6 +88,20 @@ export const EditDetailsModal: React.FC<ModalProps> = ({ type, isOpen, setIsOpen
         <IonList>
           <IonGrid>
 
+            {/* Date */}
+            <IonRow>
+              <IonCol size="12">
+                <IonItem>
+                  <IonDatetime
+                    presentation="date"
+                    preferWheel
+                    value={date}
+                    onIonChange={(e) => setDate(e.detail.value!)}
+                  />
+                </IonItem>
+              </IonCol>
+            </IonRow>
+
             {/* User */}
             <IonRow>
               <IonCol size="12">
@@ -180,20 +194,6 @@ export const EditDetailsModal: React.FC<ModalProps> = ({ type, isOpen, setIsOpen
                       </IonSelectOption>
                     ))}
                   </IonSelect>
-                </IonItem>
-              </IonCol>
-            </IonRow>
-
-            {/* Date */}
-            <IonRow>
-              <IonCol size="12">
-                <IonItem>
-                  <IonDatetime
-                    presentation="date"
-                    preferWheel
-                    value={date}
-                    onIonChange={(e) => setDate(e.detail.value!)}
-                  />
                 </IonItem>
               </IonCol>
             </IonRow>
