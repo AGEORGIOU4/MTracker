@@ -1,10 +1,10 @@
 import { IonContent, IonHeader, IonPage, IonToolbar } from '@ionic/react';
 import SearchBar from '../../components/SearchBar';
-import ExploreContainer from './components/ExploreContainer';
 
-import './Tab1.css';
+import './Tab3.css';
+import ExploreContainer from '../Tab1/components/ExploreContainer';
 
-const Tab1: React.FC = () => {
+const Tab3: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
@@ -13,10 +13,10 @@ const Tab1: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <ExploreContainer type="Expenses" />
+        <ExploreContainer type="Transfers" />
       </IonContent>
     </IonPage>
   );
 };
 
-export default Tab1;
+export default Tab3;

@@ -1,23 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import { IonItem, IonList, IonSelect, IonSelectOption, IonGrid, IonRow, IonCol, IonIcon } from '@ionic/react';
-import { months } from "../utils/months"
+import {
+  IonItem,
+  IonList,
+  IonSelect,
+  IonSelectOption,
+  IonGrid,
+  IonRow,
+  IonCol,
+} from '@ionic/react';
+import { months } from '../utils/months';
 
 const styles = {
   list: {
-    marginBottom: "10px"
-  }
+    marginBottom: '10px',
+  },
+};
+
+interface MonthYearPickerProps {
+  onChange: (selectedMonth: string, selectedYear: string) => void;
 }
-function MonthYearPicker() {
-  // State to store selected month and year
+
+function MonthYearPicker({ onChange }: MonthYearPickerProps) {
   const [selectedMonth, setSelectedMonth] = useState('');
   const [selectedYear, setSelectedYear] = useState('');
 
-  // Get the current month and year
-  const currentMonth = new Date().getMonth() + 1; // Months are 0-indexed, so adding 1
+  const currentMonth = new Date().getMonth() + 1;
   const currentYear = new Date().getFullYear();
-
-  // Create arrays for months and years
-
 
   const years: string[] = [];
   for (let i = 0; i < 12; i++) {
@@ -25,42 +33,51 @@ function MonthYearPicker() {
   }
 
   useEffect(() => {
-    setSelectedMonth(currentMonth.toString().padStart(2, '0')); // Default to current month
-    setSelectedYear(currentYear.toString()); // Default to current year
-  }, [currentMonth, currentYear]);
+    const month = currentMonth.toString().padStart(2, '0');
+    const year = currentYear.toString();
+    setSelectedMonth(month);
+    setSelectedYear(year);
+    onChange(month, year);
+  }, []);
+
+  const handleMonthChange = (value: string) => {
+    setSelectedMonth(value);
+    onChange(value, selectedYear);
+  };
+
+  const handleYearChange = (value: string) => {
+    setSelectedYear(value);
+    onChange(selectedMonth, value);
+  };
 
   return (
     <IonList style={styles.list}>
       <IonGrid>
         <IonRow>
-          <IonCol size='6'>
-
-
-            <IonItem >
+          <IonCol size="6">
+            <IonItem>
               <IonSelect
-
                 interface="modal"
                 aria-label="Month"
                 value={selectedMonth}
-                onIonChange={(e) => setSelectedMonth(e.detail.value)}
+                onIonChange={(e) => handleMonthChange(e.detail.value)}
               >
                 {months.map((month) => (
-                  <IonSelectOption key={month.value} value={month.value} >
+                  <IonSelectOption key={month.value} value={month.value}>
                     {month.label}
                   </IonSelectOption>
                 ))}
               </IonSelect>
             </IonItem>
-
           </IonCol>
 
-          <IonCol size='6'>
+          <IonCol size="6">
             <IonItem>
               <IonSelect
                 interface="modal"
                 aria-label="Year"
                 value={selectedYear}
-                onIonChange={(e) => setSelectedYear(e.detail.value)}
+                onIonChange={(e) => handleYearChange(e.detail.value)}
               >
                 {years.map((year) => (
                   <IonSelectOption key={year} value={year}>
@@ -69,8 +86,6 @@ function MonthYearPicker() {
                 ))}
               </IonSelect>
             </IonItem>
-
-
           </IonCol>
         </IonRow>
       </IonGrid>

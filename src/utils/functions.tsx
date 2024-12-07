@@ -1,17 +1,13 @@
-import { Geolocation } from '@capacitor/geolocation';
+export function formatDateToDDMMYY(dateInput: string | Date): string {
+  const date = new Date(dateInput);
 
-
-export async function getCurrentLocation() {
-  try {
-    const position = await Geolocation.getCurrentPosition();
-    return {
-      latitude: position.coords.latitude,
-      longitude: position.coords.longitude,
-    };
-  } catch (error) {
-    console.error('Error fetching location:', error);
-    return null; // Return null if the location can't be fetched
+  if (isNaN(date.getTime())) {
+    return 'Invalid Date';
   }
-}
 
-// fsq3fQI6suFi2HaXSDV5hnKh9I6j1rGAoc2h+ktJMLD0npI=
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+  const year = String(date.getFullYear()).slice(-2); // Get last 2 digits of the year
+
+  return `${day}/${month}/${year}`;
+}
