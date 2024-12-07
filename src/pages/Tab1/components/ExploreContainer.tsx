@@ -36,6 +36,8 @@ const ExploreContainer: React.FC<ContainerProps> = ({ name }) => {
     setSelectedTemplate(e.value);
   }
 
+
+
   return (
     <>
       <MonthYearPicker />

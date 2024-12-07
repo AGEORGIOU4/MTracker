@@ -2,11 +2,14 @@ import React from 'react';
 import { IonAvatar, IonCard, IonCardContent, IonLabel } from '@ionic/react';
 
 const styles = {
+  // card: {
+  //   background: "#f9f9f9",
+  //   borderRadius: '20px',
+  //   boxShadow: 'none',
+  //   transition: 'transform 0.3s ease-in-out',
+  // },
   card: {
-    background: "#f9f9f9",
-    borderRadius: '20px',
-    boxShadow: 'none',
-    transition: 'transform 0.3s ease-in-out',
+    margin: "20px 10px"
   },
   cardContent: {
     display: 'flex',
@@ -74,9 +77,7 @@ interface TransactionCardProps {
 
 const TransactionCard: React.FC<TransactionCardProps> = ({ avatar, description, category, account, amount, color }) => {
   return (
-    <IonCard
-      style={styles.card}
-    >
+    <IonCard style={styles.card}>
       <IonCardContent style={styles.cardContent}>
         <IonAvatar slot="start" style={styles.avatar}>
           <img

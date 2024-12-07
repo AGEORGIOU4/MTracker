@@ -8,15 +8,28 @@ import {
   IonToolbar,
   IonTitle,
   IonIcon,
+  IonGrid,
+  IonCol,
+  IonRow,
+  IonCard,
+  IonCardContent,
 } from '@ionic/react';
 import { transaction_categories } from '../../../../utils/options';
 
-
 const styles = {
-  button: {
-    margin: "20px auto"
-  },
+  buttonCard: {
+    aspectRatio: 1 / 1,
+    width: "100%",
+    margin: "auto", // Minimal margin for spacing
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
 
+  },
+  cardContent: {
+    textAlign: "center",
+    padding: 0, // Remove padding inside the card
+  },
 };
 
 interface ModalProps {
@@ -26,7 +39,12 @@ interface ModalProps {
   handleSelectTemplate: (item: any) => void;
 }
 
-export const SelectTemplateModal: React.FC<ModalProps> = ({ isOpen, setIsOpen, handleSkip, handleSelectTemplate }) => {
+export const SelectTemplateModal: React.FC<ModalProps> = ({
+  isOpen,
+  setIsOpen,
+  handleSkip,
+  handleSelectTemplate,
+}) => {
   return (
     <>
       <IonModal isOpen={isOpen} aria-hidden="false">
@@ -45,22 +63,27 @@ export const SelectTemplateModal: React.FC<ModalProps> = ({ isOpen, setIsOpen, h
             </IonButtons>
           </IonToolbar>
         </IonHeader>
-        <IonContent className="ion-padding" >
-          {transaction_categories.map((transaction, index) => (
-            <IonButton
-              key={index}
-              onClick={() => handleSelectTemplate(transaction)}
-              expand="block"
-              style={styles.button}
-            >
-              <IonIcon icon={transaction.icon} slot="start" />
-              {transaction.label}
-            </IonButton>
-          ))}
+        <IonContent className="ion-padding">
+          <IonGrid>
+            <IonRow>
+              {transaction_categories.map((transaction, index) => (
+                <IonCol size="6" key={index}>
+                  <IonCard
+                    button
+                    onClick={() => handleSelectTemplate(transaction)}
+                    style={styles.buttonCard}
+                  >
+                    <IonCardContent style={styles.cardContent}>
+                      <IonIcon icon={transaction.icon} />
+                      <div>{transaction.label}</div>
+                    </IonCardContent>
+                  </IonCard>
+                </IonCol>
+              ))}
+            </IonRow>
+          </IonGrid>
         </IonContent>
       </IonModal>
     </>
   );
 };
-
-

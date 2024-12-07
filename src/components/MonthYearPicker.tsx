@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { IonItem, IonList, IonSelect, IonSelectOption, IonGrid, IonRow, IonCol, IonIcon } from '@ionic/react';
 import { months } from "../utils/months"
+
+const styles = {
+  list: {
+    marginBottom: "10px"
+  }
+}
 function MonthYearPicker() {
   // State to store selected month and year
   const [selectedMonth, setSelectedMonth] = useState('');
@@ -24,8 +30,7 @@ function MonthYearPicker() {
   }, [currentMonth, currentYear]);
 
   return (
-    <IonList >
-
+    <IonList style={styles.list}>
       <IonGrid>
         <IonRow>
           <IonCol size='6'>

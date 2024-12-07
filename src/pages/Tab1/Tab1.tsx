@@ -6,6 +6,7 @@ import './Tab1.css';
 import { useEffect, useState } from 'react';
 
 import { Geolocation } from '@capacitor/geolocation';
+import { initialTransactions } from '../../utils/options';
 
 async function getCurrentLocation() {
   try {
@@ -20,55 +21,39 @@ async function getCurrentLocation() {
   }
 }
 
-
 const Tab1: React.FC = () => {
   const [places, setPlaces] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [transactions, setTransactions] = useState(() => {
+    // Load initial state from localStorage or set default
+    const storedTransactions = localStorage.getItem('transactions');
+    return storedTransactions ? JSON.parse(storedTransactions) : initialTransactions || [];
+  });
 
-  // useEffect(() => {
-  //   const fetchPlaces = async () => {
-  //     const location = await getCurrentLocation();
+  useEffect(() => {
+    // Update localStorage whenever transactions state changes
+    localStorage.setItem('transactions', JSON.stringify(transactions));
+  }, [transactions]);
 
-  //     if (location) {
-  //       const { latitude, longitude } = location;
+  useEffect(() => {
+    // Listen for changes in localStorage
+    const handleStorageChange = (event: StorageEvent) => {
+      if (event.key === 'transactions') {
+        // Update state when transactions in localStorage change
+        const updatedTransactions = event.newValue ? JSON.parse(event.newValue) : [];
+        setTransactions(updatedTransactions);
+      }
+    };
 
-  //       const options = {
-  //         method: 'GET',
-  //         headers: {
-  //           accept: 'application/json',
-  //           Authorization: 'fsq3jJ5KhpVS3xVOvQJSyj06Y7qb7oBhO7Oon8XHQRqc5iY=', // Replace with your actual API key
-  //         },
-  //       };
+    window.addEventListener('storage', handleStorageChange);
 
-  //       try {
-  //         const response = await fetch(
-  //           `https://api.foursquare.com/v3/places/search?ll=${latitude},${longitude}&radius=400&fields=name%2Cdistance&sort=DISTANCE&limit=50`,
-  //           options
-  //         );
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
 
-  //         if (!response.ok) {
-  //           throw new Error('Failed to fetch places');
-  //         }
-
-  //         const data = await response.json();
-  //         console.log(data);
-  //         setPlaces(data.results); // Assuming the API response contains a "results" array
-  //       } catch (err: any) {
-  //         setError('Error fetching data: ' + err.message);
-  //       } finally {
-  //         setLoading(false);
-  //       }
-  //     } else {
-  //       setError('Unable to fetch location');
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchPlaces();
-  // }, []); // Empty dependency array to run the effect only once on mount
-
-
+  // The commented out useEffect logic for fetching places would remain unchanged
 
   return (
     <IonPage>
