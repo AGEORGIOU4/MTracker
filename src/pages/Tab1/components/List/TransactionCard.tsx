@@ -30,7 +30,12 @@ export const TransactionCard: React.FC<TransactionCardProps> = ({ id, descriptio
           </div>
 
           <IonLabel slot="end" style={styles.label}>
-            <div style={styles.labelDiv}>
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'flex-end',
+              width: '100%'
+            }}>
               <span style={styles.amount}>{amount}</span>
               <small style={styles.account}>{account}</small>
               <IonImg style={styles.method} src={getMethodPhoto(method)} />
@@ -95,12 +100,6 @@ const styles = {
     padding: "5px",
     borderRadius: "15px",
   }),
-  labelDiv: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-end',
-    width: '100%'
-  },
   label: {
     display: 'flex',
     flexDirection: 'column',
