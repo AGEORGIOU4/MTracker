@@ -142,19 +142,24 @@ export const ViewDetailsModal: React.FC<ModalProps> = ({ isOpen, setIsOpen, sele
 
 
 
-              {/* Description and Amount */}
+              {/* Description */}
               <IonRow>
-                <IonCol size="8">
+                <IonCol size="12">
                   <IonItem>
                     <IonLabel className="ion-text-wrap" >{selectedTransaction?.description}</IonLabel>
                   </IonItem>
                 </IonCol>
-                <IonCol size="4">
+              </IonRow>
+
+              {/*  Amount */}
+              <IonRow>
+                <IonCol size="6">
                   <IonItem>
                     <IonLabel className="ion-text-wrap" >{selectedTransaction?.amount}</IonLabel>
                   </IonItem>
                 </IonCol>
               </IonRow>
+
             </IonGrid>
           </IonList>
         </IonContent>

@@ -198,9 +198,9 @@ export const EditDetailsModal: React.FC<ModalProps> = ({ type, isOpen, setIsOpen
               </IonCol>
             </IonRow>
 
-            {/* Description and Amount */}
+            {/* Description */}
             <IonRow>
-              <IonCol size="8">
+              <IonCol size="12">
                 <IonItem>
                   <IonInput
                     ref={descriptionInputRef}
@@ -213,7 +213,11 @@ export const EditDetailsModal: React.FC<ModalProps> = ({ type, isOpen, setIsOpen
                   />
                 </IonItem>
               </IonCol>
-              <IonCol size="4">
+            </IonRow>
+
+            {/* Amount */}
+            <IonRow>
+              <IonCol size="6">
                 <IonItem>
                   <IonInput
                     label="Amount"
