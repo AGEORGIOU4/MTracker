@@ -2,9 +2,12 @@ import React, { useEffect, useState } from 'react';
 import {
   IonButtons, IonButton, IonModal, IonHeader, IonContent, IonToolbar,
   IonTitle, IonList, IonItem, IonSelect, IonSelectOption, IonInput,
-  IonGrid, IonRow, IonCol, IonIcon, IonDatetime
+  IonGrid, IonRow, IonCol, IonIcon, IonDatetimeButton,
+  IonTextarea,
+  IonDatetime,
+  IonAlert
 } from '@ionic/react';
-import { person, pricetag, card, syncCircle } from 'ionicons/icons';
+import { person, pricetag, card, syncCircle, wallet, home, pencil, logoEuro } from 'ionicons/icons';
 import { accounts, expenses_categories, income_categories, methods, transfers_categories, users } from '../../../../utils/options';
 import { doc, setDoc } from 'firebase/firestore';
 import { db } from '../../../../utils/firebase';
@@ -19,13 +22,7 @@ export const EditDetailsModal: React.FC<ModalProps> = ({ type, isOpen, setIsOpen
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState('');
 
-  const descriptionInputRef = React.useRef<HTMLIonInputElement>(null);
-
-  useEffect(() => {
-    if (isOpen && descriptionInputRef.current) {
-      descriptionInputRef.current.setFocus();
-    }
-  }, [isOpen]);
+  const [showAlert, setShowAlert] = useState(false);
 
   useEffect(() => {
     setCategory(selectedTemplate || "Other");
@@ -36,213 +33,237 @@ export const EditDetailsModal: React.FC<ModalProps> = ({ type, isOpen, setIsOpen
     setCategory('Other');
     setMethod('Revolut');
     setAccount('Joint');
-    setDate(new Date().toISOString()); // Reset date to current date
+    setDate(new Date().toISOString());
     setDescription('');
     setAmount('');
   };
 
   const handleSave = async () => {
-    const id = uuidv4();
-    const newTransaction = {
-      id,
-      user,
-      type,
-      category,
-      method,
-      account,
-      date,
-      description,
-      amount: parseFloat(amount) || 0,
-    };
+    if (!description || !amount) {
+      setShowAlert(true)
+    } else {
+      const id = uuidv4();
+      const newTransaction = {
+        id,
+        user,
+        type,
+        category,
+        method,
+        account,
+        date,
+        description,
+        amount: parseFloat(amount) || 0,
+      };
 
-    try {
-      const transactionRef = doc(db, "transactions", id);
-      await setDoc(transactionRef, {
-        ...newTransaction,
-        timestamp: new Date(),
-      });
-    } catch (error) {
-      console.error('Error saving transaction:', error);
+      try {
+        const transactionRef = doc(db, "transactions", id);
+        await setDoc(transactionRef, {
+          ...newTransaction,
+          timestamp: new Date(),
+        });
+      } catch (error) {
+        console.error('Error saving transaction:', error);
+      }
+
+      refreshTransactions();
+      resetFields();
+      setIsOpen(false);
     }
-
-    refreshTransactions();
-    resetFields();
-    setIsOpen(false);
   };
 
   return (
-    <IonModal isOpen={isOpen}>
-      <IonHeader mode='ios'>
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonButton color="medium" onClick={() => setIsOpen(false)}>Cancel</IonButton>
-          </IonButtons>
-          <IonTitle>Transaction Details</IonTitle>
-          <IonButtons slot="end">
-            <IonButton onClick={handleSave}>Confirm</IonButton>
-          </IonButtons>
-        </IonToolbar>
-      </IonHeader>
+    <>
+      {/* Confirmation Alert */}
+      <IonAlert
+        isOpen={showAlert}
+        onDidDismiss={() => setShowAlert(false)}
+        header="Fields Required"
+        message="Please fill description and amount fields"
+        buttons={[
 
-      <IonContent className="ion-padding">
-        <IonList>
-          <IonGrid>
+          {
+            text: 'Ok',
+            // handler: handleConfirmDelete,
+          },
+        ]}
+      />
 
-            {/* Date */}
-            <IonRow>
-              <IonCol size="12">
-                <IonItem>
-                  <IonDatetime
-                    presentation="date"
-                    preferWheel
-                    value={date}
-                    onIonChange={(e) => setDate(e.detail.value!)}
-                  />
-                </IonItem>
-              </IonCol>
-            </IonRow>
+      <IonModal isOpen={isOpen}>
+        <IonHeader mode='ios'>
+          <IonToolbar>
+            <IonButtons slot="start">
+              <IonButton color="medium" onClick={() => setIsOpen(false)}>Cancel</IonButton>
+            </IonButtons>
+            <IonTitle>Transaction Details</IonTitle>
+            <IonButtons slot="end">
+              <IonButton onClick={handleSave}>Confirm</IonButton>
+            </IonButtons>
+          </IonToolbar>
+        </IonHeader>
 
-            {/* User */}
-            <IonRow>
-              <IonCol size="12">
-                <IonItem>
-                  <IonIcon slot="start" icon={person} color='primary' />
-                  <IonSelect
-                    label="User"
-                    value={user}
-                    onIonChange={(e) => setUser(e.detail.value)}
-                    labelPlacement="stacked"
-                  >
-                    {users.map((u, index) => (
-                      <IonSelectOption key={index} value={u.value}>
-                        {u.label}
-                      </IonSelectOption>
-                    ))}
-                  </IonSelect>
-                </IonItem>
-              </IonCol>
-            </IonRow>
+        <IonContent className="ion-padding">
+          <IonList>
+            <IonGrid>
 
-            {/* Category */}
-            <IonRow>
-              <IonCol size="12">
-                <IonItem>
-                  <IonIcon slot="start" icon={pricetag} color='primary' />
-                  <IonSelect
-                    label="Category"
-                    value={category}
-                    onIonChange={(e) => setCategory(e.detail.value)}
-                    labelPlacement="stacked"
-                  >
-                    {type === "Expenses" && expenses_categories.map((c, index) => (
-                      <IonSelectOption key={index} value={c.value}>
-                        {c.label}
-                      </IonSelectOption>
-                    ))}
+              {/* Date */}
+              <IonRow>
+                <IonCol size="12">
 
-                    {type === "Income" && income_categories.map((c, index) => (
-                      <IonSelectOption key={index} value={c.value}>
-                        {c.label}
-                      </IonSelectOption>
-                    ))}
+                  <IonDatetimeButton datetime="datetime"></IonDatetimeButton>
 
-                    {type === "Transfers" && transfers_categories.map((c, index) => (
-                      <IonSelectOption key={index} value={c.value}>
-                        {c.label}
-                      </IonSelectOption>
-                    ))}
-                  </IonSelect>
-                </IonItem>
-              </IonCol>
-            </IonRow>
+                  <IonModal keepContentsMounted={true}>
+                    <IonDatetime id="datetime"
+                      value={date}
+                      onIonChange={(e) => setDate(e.detail.value!)}></IonDatetime>
+                  </IonModal>
+                </IonCol>
+              </IonRow>
 
-            {/* Method */}
-            <IonRow>
-              <IonCol size="12">
-                <IonItem>
-                  <IonIcon slot="start" icon={syncCircle} color='primary' />
-                  <IonSelect
-                    label="Method"
-                    value={method}
-                    onIonChange={(e) => setMethod(e.detail.value)}
-                    labelPlacement="stacked"
-                  >
-                    {methods.map((m, index) => (
-                      <IonSelectOption key={index} value={m.value}>
-                        {m.label}
-                      </IonSelectOption>
-                    ))}
-                  </IonSelect>
-                </IonItem>
-              </IonCol>
-            </IonRow>
+              {/* User */}
+              <IonRow>
+                <IonCol size="12">
+                  <IonItem>
+                    <IonIcon slot="start" icon={person} color='primary' />
+                    <IonSelect
+                      mode='ios'
+                      label="User"
+                      labelPlacement="floating" fill="solid"
+                      value={user}
+                      onIonChange={(e) => setUser(e.detail.value)}
+                    >
+                      {users.map((u, index) => (
+                        <IonSelectOption key={index} value={u.value}>
+                          {u.label}
+                        </IonSelectOption>
+                      ))}
+                    </IonSelect>
+                  </IonItem>
+                </IonCol>
+              </IonRow>
 
-            {/* Account */}
-            <IonRow>
-              <IonCol size="12">
-                <IonItem>
-                  <IonIcon slot="start" icon={card} color='primary' />
-                  <IonSelect
-                    label="Account"
-                    value={account}
-                    onIonChange={(e) => setAccount(e.detail.value)}
-                    labelPlacement="stacked"
-                  >
-                    {accounts.map((a, index) => (
-                      <IonSelectOption key={index} value={a.value}>
-                        {a.label}
-                      </IonSelectOption>
-                    ))}
-                  </IonSelect>
-                </IonItem>
-              </IonCol>
-            </IonRow>
+              {/* Category */}
+              <IonRow>
+                <IonCol size="12">
+                  <IonItem>
+                    <IonIcon slot="start" icon={pricetag} color='primary' />
+                    <IonSelect
+                      mode='ios'
+                      label="Category"
+                      labelPlacement="floating" fill="solid"
+                      value={category}
+                      onIonChange={(e) => setCategory(e.detail.value)}
+                    >
+                      {type === "Expenses" && expenses_categories.map((c, index) => (
+                        <IonSelectOption key={index} value={c.value}>
+                          {c.label}
+                        </IonSelectOption>
+                      ))}
+                      {type === "Income" && income_categories.map((c, index) => (
+                        <IonSelectOption key={index} value={c.value}>
+                          {c.label}
+                        </IonSelectOption>
+                      ))}
+                      {type === "Transfers" && transfers_categories.map((c, index) => (
+                        <IonSelectOption key={index} value={c.value}>
+                          {c.label}
+                        </IonSelectOption>
+                      ))}
+                    </IonSelect>
+                  </IonItem>
+                </IonCol>
+              </IonRow>
 
-            {/* Description */}
-            <IonRow>
-              <IonCol size="12">
-                <IonItem>
-                  <IonInput
-                    ref={descriptionInputRef}
-                    label="Description"
-                    labelPlacement="stacked"
-                    placeholder="Enter transaction"
-                    value={description}
-                    onIonInput={(e) => setDescription(e.detail.value!)}
-                    autoFocus
-                  />
-                </IonItem>
-              </IonCol>
-            </IonRow>
+              {/* Method */}
+              <IonRow>
+                <IonCol size="12">
+                  <IonItem>
+                    <IonIcon slot="start" icon={syncCircle} color='primary' />
+                    <IonSelect
+                      mode='ios'
+                      label="Method"
+                      labelPlacement="floating" fill="solid"
+                      value={method}
+                      onIonChange={(e) => setMethod(e.detail.value)}
+                    >
+                      {methods.map((m, index) => (
+                        <IonSelectOption key={index} value={m.value}>
+                          {m.label}
+                        </IonSelectOption>
+                      ))}
+                    </IonSelect>
+                  </IonItem>
+                </IonCol>
+              </IonRow>
 
-            {/* Amount */}
-            <IonRow>
-              <IonCol size="6">
-                <IonItem>
-                  <IonInput
-                    label="Amount"
-                    labelPlacement="stacked"
-                    type="number"
-                    value={amount}
-                    onIonInput={(e) => setAmount(e.detail.value!)}
-                  />
-                </IonItem>
-              </IonCol>
-            </IonRow>
+              {/* Account */}
+              <IonRow>
+                <IonCol size="12">
+                  <IonItem>
+                    <IonIcon slot="start" icon={card} color='primary' />
+                    <IonSelect
+                      mode='ios'
+                      label="Account"
+                      labelPlacement="floating" fill="solid"
+                      value={account}
+                      onIonChange={(e) => setAccount(e.detail.value)}
+                    >
+                      {accounts.map((a, index) => (
+                        <IonSelectOption key={index} value={a.value}>
+                          {a.label}
+                        </IonSelectOption>
+                      ))}
+                    </IonSelect>
+                  </IonItem>
+                </IonCol>
+              </IonRow>
 
-            {/* Reset Button (optional) */}
-            <IonRow>
-              <IonCol size="12">
-                <IonButton mode='ios' expand="block" onClick={handleSave}>
-                  Save
-                </IonButton>
-              </IonCol>
-            </IonRow>
+              {/* Description */}
+              <IonRow>
+                <IonCol size="12">
+                  <IonItem>
+                    <IonIcon slot="start" icon={pencil} color='primary' />
+                    <IonTextarea
+                      mode='ios'
+                      label="Description"
+                      labelPlacement="floating" fill="solid"
+                      value={description}
+                      onIonInput={(e) => setDescription(e.detail.value!)}
+                      autoFocus
+                    />
+                  </IonItem>
+                </IonCol>
+              </IonRow>
 
-          </IonGrid>
-        </IonList>
-      </IonContent>
-    </IonModal>
+              {/* Amount */}
+              <IonRow>
+                <IonCol size='12'>
+                  <IonItem>
+                    <IonIcon slot="start" icon={logoEuro} color='primary' />
+                    <IonInput
+                      mode='ios'
+                      label="Amount"
+                      labelPlacement="floating" fill="solid"
+                      type="number"
+                      value={amount}
+                      onIonInput={(e) => setAmount(e.detail.value!)}
+                    />
+                  </IonItem>
+                </IonCol>
+              </IonRow>
+
+              <IonRow>
+                <IonCol size="12">
+                  <IonButton mode='ios' expand="block" onClick={handleSave}>
+                    Save
+                  </IonButton>
+                </IonCol>
+              </IonRow>
+
+            </IonGrid>
+          </IonList>
+        </IonContent>
+      </IonModal>
+    </>
   );
 };
 

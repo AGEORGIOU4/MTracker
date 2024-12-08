@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import {
   IonButtons, IonButton, IonModal, IonHeader, IonContent, IonToolbar,
-  IonTitle, IonList, IonItem, IonSelect, IonSelectOption, IonLabel,
+  IonTitle, IonList, IonItem, IonLabel,
   IonGrid, IonRow, IonCol, IonIcon, IonDatetime, IonAlert,
-  IonDatetimeButton
+  IonDatetimeButton,
+  IonText
 } from '@ionic/react';
-import { person, wallet, pricetag, card, syncCircle } from 'ionicons/icons';
+import { person, wallet, pricetag, card, syncCircle, pencil, logoEuro } from 'ionicons/icons';
 import { deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../../../../utils/firebase';
 
@@ -80,13 +81,10 @@ export const ViewDetailsModal: React.FC<ModalProps> = ({ isOpen, setIsOpen, sele
               {/* Date */}
               <IonRow>
                 <IonCol size="12">
-                  <IonItem>
-                    <IonDatetimeButton datetime="datetime"></IonDatetimeButton>
-
-                    <IonModal keepContentsMounted={true}>
-                      <IonDatetime id="datetime" value={selectedTransaction?.date}></IonDatetime>
-                    </IonModal>
-                  </IonItem>
+                  <IonDatetimeButton datetime="datetime"></IonDatetimeButton>
+                  <IonModal keepContentsMounted={true}>
+                    <IonDatetime disabled id="datetime" value={selectedTransaction?.date}></IonDatetime>
+                  </IonModal>
                 </IonCol>
               </IonRow>
 
@@ -95,7 +93,8 @@ export const ViewDetailsModal: React.FC<ModalProps> = ({ isOpen, setIsOpen, sele
                 <IonCol size="12">
                   <IonItem>
                     <IonIcon slot="start" icon={person} color='primary' />
-                    <IonLabel className="ion-text-wrap" slot="end">{selectedTransaction?.user}</IonLabel>
+                    <IonLabel className="ion-text-wrap">User</IonLabel>
+                    <IonText>{selectedTransaction?.user}</IonText>
                   </IonItem>
                 </IonCol>
               </IonRow>
@@ -105,7 +104,8 @@ export const ViewDetailsModal: React.FC<ModalProps> = ({ isOpen, setIsOpen, sele
                 <IonCol size="12">
                   <IonItem>
                     <IonIcon slot="start" icon={wallet} color='primary' />
-                    <IonLabel className="ion-text-wrap" slot="end">{selectedTransaction?.type}</IonLabel>
+                    <IonLabel className="ion-text-wrap">Type</IonLabel>
+                    <IonText>{selectedTransaction?.type}</IonText>
                   </IonItem>
                 </IonCol>
               </IonRow>
@@ -115,7 +115,8 @@ export const ViewDetailsModal: React.FC<ModalProps> = ({ isOpen, setIsOpen, sele
                 <IonCol size="12">
                   <IonItem>
                     <IonIcon slot="start" icon={pricetag} color='primary' />
-                    <IonLabel className="ion-text-wrap" slot="end">{selectedTransaction?.category}</IonLabel>
+                    <IonLabel className="ion-text-wrap">Category</IonLabel>
+                    <IonText>{selectedTransaction?.category}</IonText>
                   </IonItem>
                 </IonCol>
               </IonRow>
@@ -125,7 +126,8 @@ export const ViewDetailsModal: React.FC<ModalProps> = ({ isOpen, setIsOpen, sele
                 <IonCol size="12">
                   <IonItem>
                     <IonIcon slot="start" icon={syncCircle} color='primary' />
-                    <IonLabel className="ion-text-wrap" slot="end">{selectedTransaction?.method}</IonLabel>
+                    <IonLabel className="ion-text-wrap">Method</IonLabel>
+                    <IonText>{selectedTransaction?.method}</IonText>
                   </IonItem>
                 </IonCol>
               </IonRow>
@@ -135,7 +137,8 @@ export const ViewDetailsModal: React.FC<ModalProps> = ({ isOpen, setIsOpen, sele
                 <IonCol size="12">
                   <IonItem>
                     <IonIcon slot="start" icon={card} color='primary' />
-                    <IonLabel className="ion-text-wrap" slot="end">{selectedTransaction?.account}</IonLabel>
+                    <IonLabel className="ion-text-wrap">Account</IonLabel>
+                    <IonText>{selectedTransaction?.account}</IonText>
                   </IonItem>
                 </IonCol>
               </IonRow>
@@ -146,16 +149,20 @@ export const ViewDetailsModal: React.FC<ModalProps> = ({ isOpen, setIsOpen, sele
               <IonRow>
                 <IonCol size="12">
                   <IonItem>
-                    <IonLabel className="ion-text-wrap" >{selectedTransaction?.description}</IonLabel>
+                    <IonIcon slot="start" icon={pencil} color='primary' />
+                    <IonLabel className="ion-text-wrap">Description</IonLabel>
+                    <IonText>{selectedTransaction?.description}</IonText>
                   </IonItem>
                 </IonCol>
               </IonRow>
 
               {/*  Amount */}
               <IonRow>
-                <IonCol size="6">
+                <IonCol size="12">
                   <IonItem>
-                    <IonLabel className="ion-text-wrap" >{selectedTransaction?.amount}</IonLabel>
+                    <IonIcon slot="start" icon={logoEuro} color='primary' />
+                    <IonLabel className="ion-text-wrap">Amount</IonLabel>
+                    <IonText>{selectedTransaction?.amount}</IonText>
                   </IonItem>
                 </IonCol>
               </IonRow>

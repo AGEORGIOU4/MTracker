@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
-import { IonItem, IonList, IonSelect, IonSelectOption, IonGrid, IonRow, IonCol } from '@ionic/react';
+import { IonList, IonSelect, IonSelectOption, IonGrid, IonRow, IonCol } from '@ionic/react';
 import { months } from '../utils/months';
+
+
+import '../theme/main.css'
 
 export default function MonthYearPicker({ onChange }: MonthYearPickerProps) {
   const [selectedMonth, setSelectedMonth] = useState('');
@@ -36,38 +39,40 @@ export default function MonthYearPicker({ onChange }: MonthYearPickerProps) {
     <IonList style={styles.list}>
       <IonGrid>
         <IonRow>
-          <IonCol size="6">
-            <IonItem>
-              <IonSelect
-                interface="modal"
-                aria-label="Month"
-                value={selectedMonth}
-                onIonChange={(e) => handleMonthChange(e.detail.value)}
-              >
-                {months.map((month) => (
-                  <IonSelectOption key={month.value} value={month.value}>
-                    {month.label}
-                  </IonSelectOption>
-                ))}
-              </IonSelect>
-            </IonItem>
+
+          <IonCol size="5">
+            <IonSelect
+              mode='ios'
+              justify="end"
+              interface="action-sheet"
+              aria-label="Month"
+              value={selectedMonth}
+              onIonChange={(e) => handleMonthChange(e.detail.value)}
+            >
+              {months.map((month) => (
+                <IonSelectOption key={month.value} value={month.value}>
+                  {month.label}
+                </IonSelectOption>
+              ))}
+            </IonSelect>
           </IonCol>
 
-          <IonCol size="6">
-            <IonItem>
-              <IonSelect
-                interface="modal"
-                aria-label="Year"
-                value={selectedYear}
-                onIonChange={(e) => handleYearChange(e.detail.value)}
-              >
-                {years.map((year) => (
-                  <IonSelectOption key={year} value={year}>
-                    {year}
-                  </IonSelectOption>
-                ))}
-              </IonSelect>
-            </IonItem>
+          <IonCol size='2'></IonCol>
+          <IonCol size="5">
+            <IonSelect
+              mode='ios'
+              justify="space-between"
+              interface="action-sheet"
+              aria-label="Year"
+              value={selectedYear}
+              onIonChange={(e) => handleYearChange(e.detail.value)}
+            >
+              {years.map((year) => (
+                <IonSelectOption key={year} value={year}>
+                  {year}
+                </IonSelectOption>
+              ))}
+            </IonSelect>
           </IonCol>
         </IonRow>
       </IonGrid>

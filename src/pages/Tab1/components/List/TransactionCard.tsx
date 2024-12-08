@@ -24,7 +24,7 @@ export const TransactionCard: React.FC<TransactionCardProps> = ({ id, descriptio
         </IonAvatar>
 
         <div style={styles.textContainer}>
-          <p style={styles.description}>{description}</p>
+          <p style={styles.description}>{description?.toUpperCase()}</p>
           <small style={styles.account}>{account}</small>
           {/* <small style={styles.category(color)}>{category}</small> */}
         </div>
@@ -36,13 +36,12 @@ export const TransactionCard: React.FC<TransactionCardProps> = ({ id, descriptio
             alignItems: 'flex-end',
             width: '100%'
           }}>
+            <IonImg style={styles.method} src={getMethodPhoto(method)} />
             <span style={styles.amount}>
               {type === "Expenses" ? `- ${amount}`
                 : type === "Income" ? `+ ${amount}`
                   : `${amount}`}
             </span>
-
-            <IonImg style={styles.method} src={getMethodPhoto(method)} />
           </div>
         </IonLabel>
       </IonCardContent>
@@ -85,7 +84,7 @@ const styles = {
   },
   description: {
     color: '#000',
-    fontWeight: '600',
+    fontWeight: '500',
     margin: '0',
     fontSize: '14px',
     marginBottom: "4px"
@@ -117,9 +116,10 @@ const styles = {
     color: '#555',
   },
   amount: {
+    marginTop: '10px',
     fontSize: '15px',
     color: '#000',
-    fontWeight: '600',
+
     whiteSpace: 'nowrap',
   },
 };
