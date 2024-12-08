@@ -1,11 +1,11 @@
 import React from 'react';
-import { IonContent, IonList, IonSkeletonText, IonText, IonSpinner } from '@ionic/react';
+import { IonContent, IonList, IonSkeletonText, IonText, IonSpinner, IonCard } from '@ionic/react';
 import { avatars, expenses_categories, income_categories, transfers_categories } from '../../../../utils/options';
-import { formatDateToDDMMYY } from '../../../../utils/functions';
+import { formatDateToDDMMYY, getTransactionColor } from '../../../../utils/functions';
 import { TransactionCard } from './TransactionCard';
 
 export default function TransactionsList({ type, items, loading, error, refreshTransactions }: { type: string, items: any[]; loading: boolean, error: string | null, refreshTransactions: () => void }) {
-  // Skeleton loader content
+
   const renderSkeletonLoader = () => (
     <IonList>
       {[1, 2, 3, 4, 5].map((_, index) => (
@@ -36,7 +36,6 @@ export default function TransactionsList({ type, items, loading, error, refreshT
     );
   }
 
-  // Show error state
   if (error) {
     return (
       <IonContent>
@@ -45,40 +44,60 @@ export default function TransactionsList({ type, items, loading, error, refreshT
     );
   }
 
-  // Show transactions list
+  const groupedTransactions = items.reduce((groups, item) => {
+    const date = formatDateToDDMMYY(item.date);  // Format the date (assuming formatDateToDDMMYY is available)
+    if (!groups[date]) {
+      groups[date] = [];
+    }
+    groups[date].push(item);
+    return groups;
+  }, {} as Record<string, any[]>);
+
   return (
     <IonContent>
       <IonList style={{ marginBottom: "150px", background: "#f3f3f3" }}>
-        {items.length > 0 ? (
-          items.map((item: any) => (
-            <React.Fragment key={item.id || Math.random()}>
-              <div style={{ textAlign: "end", padding: "0px 20px" }}>
-                <small style={{ color: "var(--ion-text-color-light)" }}>{formatDateToDDMMYY(item.date)}</small>
-              </div>
-              <TransactionCard
-                id={item.id}
-                description={item.description || 'No Description'}
-                type={item.type || 'No Type'}
-                category={item.category || 'Uncategorized'}
-                method={item.method || 'Unknown'}
-                account={item.account || 'Unknown Account'}
-                user={item.user || 'Unknown User'}
-                amount={"€".concat((parseFloat(item.amount) || 0).toFixed(2))}
-                date={item.date}
-                avatar={avatars.find((avatar) => avatar.user === item.user)?.photo || 'https://via.placeholder.com/40'}
-                color={
-                  type === "Expenses"
-                    ? expenses_categories.find((category) => category.value === item.category)?.color || "#dedede"
-                    : type === "Income"
-                      ? income_categories.find((category) => category.value === item.category)?.color || "#dedede"
-                      : type === "Transfers"
-                        ? transfers_categories.find((category) => category.value === item.category)?.color || "#dedede"
-                        : "#dedede"
-                }
-                refreshTransactions={refreshTransactions}
-              />
-            </React.Fragment>
-          ))
+        {Object.keys(groupedTransactions).length > 0 ? (
+          Object.keys(groupedTransactions).map((date) => {
+            const transactions = groupedTransactions[date];
+
+            return (
+
+              <React.Fragment key={date}>
+                <div style={{ textAlign: "start", padding: "0px 20px" }}>
+                  <small style={{ color: "var(--ion-text-color-light)" }}>{date}</small>
+                </div>
+                <IonCard mode='ios' style={styles.card}>
+                  {transactions.map((item: any, index: any) => (
+                    <React.Fragment key={item.id}>
+                      <TransactionCard
+                        key={item.id || Math.random()}
+                        id={item.id}
+                        description={item.description || 'No Description'}
+                        type={item.type || 'No Type'}
+                        category={item.category || 'Uncategorized'}
+                        method={item.method || 'Unknown'}
+                        account={item.account || 'Unknown Account'}
+                        user={item.user || 'Unknown User'}
+                        amount={"€".concat((parseFloat(item.amount) || 0).toFixed(2))}
+                        date={item.date}
+                        avatar={avatars.find((avatar) => avatar.user === item.user)?.photo || 'https://via.placeholder.com/40'}
+                        color={getTransactionColor(type, item.category)}
+                        refreshTransactions={refreshTransactions}
+                      />
+                      {transactions?.length > 1 && index != transactions?.length - 1 &&
+                        <hr style={{
+                          borderTop: '1px solid #dedede',
+                          margin: '0 15px'
+                        }} />
+                      }
+                    </React.Fragment>
+                  ))}
+
+
+                </IonCard>
+              </React.Fragment>
+            );
+          })
         ) : (
           <IonText style={{ textAlign: 'center', display: 'block', marginTop: '20px' }}>
             No transactions available for the selected date.
@@ -91,7 +110,12 @@ export default function TransactionsList({ type, items, loading, error, refreshT
 
 
 const styles = {
-
+  card: {
+    margin: "10px 20px",
+    padding: "0px",
+    background: "#fff",
+    boxShadow: "none",
+  },
 }
 
 const skeletonStyles: { card: React.CSSProperties; date: React.CSSProperties } = {

@@ -14,35 +14,38 @@ export const TransactionCard: React.FC<TransactionCardProps> = ({ id, descriptio
 
   return (
     <>
-      <IonCard mode='ios' style={styles.card} onClick={() => handleClick()}>
-        <IonCardContent style={styles.cardContent}>
-          <IonAvatar slot="start" style={styles.avatar}>
-            <img
-              src={avatar}
-              alt="avatar"
-              style={styles.avatarImage}
-            />
-          </IonAvatar>
+      <IonCardContent style={styles.cardContent} onClick={() => handleClick()}>
+        <IonAvatar slot="start" style={styles.avatar}>
+          <img
+            src={avatar}
+            alt="avatar"
+            style={styles.avatarImage}
+          />
+        </IonAvatar>
 
-          <div style={styles.textContainer}>
-            <p style={styles.description}>{description}</p>
-            <small style={styles.category(color)}>{category}</small>
+        <div style={styles.textContainer}>
+          <p style={styles.description}>{description}</p>
+          <small style={styles.category(color)}>{category}</small>
+        </div>
+
+        <IonLabel slot="end" style={styles.label}>
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-end',
+            width: '100%'
+          }}>
+            <span style={styles.amount}>
+              {type === "Expenses" ? `- ${amount}`
+                : type === "Income" ? `+ ${amount}`
+                  : `${amount}`}
+            </span>
+
+            <small style={styles.account}>{account}</small>
+            <IonImg style={styles.method} src={getMethodPhoto(method)} />
           </div>
-
-          <IonLabel slot="end" style={styles.label}>
-            <div style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'flex-end',
-              width: '100%'
-            }}>
-              <span style={styles.amount}>{amount}</span>
-              <small style={styles.account}>{account}</small>
-              <IonImg style={styles.method} src={getMethodPhoto(method)} />
-            </div>
-          </IonLabel>
-        </IonCardContent>
-      </IonCard>
+        </IonLabel>
+      </IonCardContent>
 
       {selectedTransaction && <ViewDetailsModal
         isOpen={viewDetailsModalVisible}
@@ -57,7 +60,7 @@ export const TransactionCard: React.FC<TransactionCardProps> = ({ id, descriptio
 
 const styles = {
   card: {
-    margin: "10px 10px",
+    margin: "10px 20px",
     padding: "0px",
     background: "#fff",
     boxShadow: "none",
@@ -65,12 +68,11 @@ const styles = {
   cardContent: {
     display: 'flex',
     alignItems: 'center',
-    padding: "10px",
-
+    padding: "15px",
   },
   avatar: {
-    width: '40px',
-    height: '40px',
+    width: '30px',
+    height: '30px',
     marginRight: '15px',
   },
   avatarImage: {

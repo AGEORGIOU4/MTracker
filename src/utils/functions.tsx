@@ -1,3 +1,5 @@
+import { expenses_categories, income_categories, transfers_categories } from "./options";
+
 export function formatDateToDDMMYY(dateInput: string | Date): string {
   const date = new Date(dateInput);
 
@@ -11,3 +13,16 @@ export function formatDateToDDMMYY(dateInput: string | Date): string {
 
   return `${day}/${month}/${year}`;
 }
+
+export const getTransactionColor = (type: string, category: string) => {
+  if (type === "Expenses") {
+    return expenses_categories.find((categoryObj) => categoryObj.value === category)?.color || "#dedede";
+  }
+  if (type === "Income") {
+    return income_categories.find((categoryObj) => categoryObj.value === category)?.color || "#dedede";
+  }
+  if (type === "Transfers") {
+    return transfers_categories.find((categoryObj) => categoryObj.value === category)?.color || "#dedede";
+  }
+  return "#dedede"; // Default color
+};
