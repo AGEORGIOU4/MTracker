@@ -72,7 +72,7 @@ export const EditDetailsModal: React.FC<ModalProps> = ({ type, isOpen, setIsOpen
 
   return (
     <IonModal isOpen={isOpen}>
-      <IonHeader>
+      <IonHeader mode='ios'>
         <IonToolbar>
           <IonButtons slot="start">
             <IonButton color="medium" onClick={() => setIsOpen(false)}>Cancel</IonButton>
@@ -229,7 +229,7 @@ export const EditDetailsModal: React.FC<ModalProps> = ({ type, isOpen, setIsOpen
             {/* Reset Button (optional) */}
             <IonRow>
               <IonCol size="12">
-                <IonButton expand="block" onClick={handleSave}>
+                <IonButton mode='ios' expand="block" onClick={handleSave}>
                   Save
                 </IonButton>
               </IonCol>

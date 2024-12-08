@@ -9,13 +9,6 @@ import { person, wallet, pricetag, card, syncCircle } from 'ionicons/icons';
 import { deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../../../../utils/firebase';
 
-interface ModalProps {
-  isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
-  selectedTransaction: any;
-  refreshTransactions: () => void;
-}
-
 export const ViewDetailsModal: React.FC<ModalProps> = ({ isOpen, setIsOpen, selectedTransaction, refreshTransactions }) => {
   const [showAlert, setShowAlert] = useState(false);
 
@@ -68,7 +61,7 @@ export const ViewDetailsModal: React.FC<ModalProps> = ({ isOpen, setIsOpen, sele
 
       {/* Modal */}
       <IonModal isOpen={isOpen}>
-        <IonHeader>
+        <IonHeader mode='ios'>
           <IonToolbar>
             <IonButtons slot="start">
               <IonButton color="medium" onClick={handleClose}>Close</IonButton>
@@ -169,3 +162,10 @@ export const ViewDetailsModal: React.FC<ModalProps> = ({ isOpen, setIsOpen, sele
     </>
   );
 };
+
+interface ModalProps {
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+  selectedTransaction: any;
+  refreshTransactions: () => void;
+}

@@ -18,7 +18,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, setIsOpen }) => {
   return (
     <>
       <IonModal isOpen={isOpen} aria-hidden="false">
-        <IonHeader>
+        <IonHeader mode='ios'>
           <IonToolbar>
             <IonTitle>Add Transaction</IonTitle>
             <IonButtons slot="end">
