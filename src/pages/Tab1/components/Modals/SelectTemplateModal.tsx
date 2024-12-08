@@ -26,7 +26,7 @@ export const SelectTemplateModal: React.FC<ModalProps> = ({
   return (
     <>
       <IonModal isOpen={isOpen} aria-hidden="false">
-        <IonHeader>
+        <IonHeader mode='ios'>
           <IonToolbar>
             <IonButtons slot="start">
               <IonButton color="medium" onClick={() => setIsOpen(false)}>
@@ -107,7 +107,8 @@ const styles = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    //background: color,
+    background: "#fff",
+    boxShadow: "none",
     color: "#007aff"
   }),
   cardContent: {

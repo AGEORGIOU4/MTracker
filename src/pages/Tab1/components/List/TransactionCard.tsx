@@ -3,13 +3,65 @@ import { IonAvatar, IonCard, IonCardContent, IonImg, IonLabel } from '@ionic/rea
 import { getMethodPhoto } from '../../../../utils/options';
 import { ViewDetailsModal } from '../Modals/ViewDetailsModal';
 
+export const TransactionCard: React.FC<TransactionCardProps> = ({ id, description, type, category, method, account, amount, date, user, avatar, color, refreshTransactions }) => {
+  const [viewDetailsModalVisible, setViewDetailsModalVisible] = useState(false);
+  const [selectedTransaction, setSelectedTransaction] = useState<object | null>(null);
+
+  const handleClick = () => {
+    setSelectedTransaction({ id, description, type, category, method, account, amount, date, user, avatar, color });
+    setViewDetailsModalVisible(true);
+  }
+
+  return (
+    <>
+      <IonCard mode='ios' style={styles.card} onClick={() => handleClick()}>
+        <IonCardContent style={styles.cardContent}>
+          <IonAvatar slot="start" style={styles.avatar}>
+            <img
+              src={avatar}
+              alt="avatar"
+              style={styles.avatarImage}
+            />
+          </IonAvatar>
+
+          <div style={styles.textContainer}>
+            <p style={styles.description}>{description}</p>
+            <small style={styles.category(color)}>{category}</small>
+          </div>
+
+          <IonLabel slot="end" style={styles.label}>
+            <div style={styles.labelDiv}>
+              <span style={styles.amount}>{amount}</span>
+              <small style={styles.account}>{account}</small>
+              <IonImg style={styles.method} src={getMethodPhoto(method)} />
+            </div>
+          </IonLabel>
+        </IonCardContent>
+      </IonCard>
+
+      {selectedTransaction && <ViewDetailsModal
+        isOpen={viewDetailsModalVisible}
+        setIsOpen={setViewDetailsModalVisible}
+        selectedTransaction={selectedTransaction}
+        refreshTransactions={refreshTransactions}
+      />
+      }
+    </>
+  );
+}
+
 const styles = {
   card: {
-    margin: "20px 10px"
+    margin: "10px 10px",
+    padding: "0px",
+    background: "#fff",
+    boxShadow: "none",
   },
   cardContent: {
     display: 'flex',
     alignItems: 'center',
+    padding: "10px",
+
   },
   avatar: {
     width: '40px',
@@ -43,6 +95,12 @@ const styles = {
     padding: "5px",
     borderRadius: "15px",
   }),
+  labelDiv: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-end',
+    width: '100%'
+  },
   label: {
     display: 'flex',
     flexDirection: 'column',
@@ -79,52 +137,3 @@ interface TransactionCardProps {
   color: string;
   refreshTransactions: () => void;
 }
-
-const TransactionCard: React.FC<TransactionCardProps> = ({ id, description, type, category, method, account, amount, date, user, avatar, color, refreshTransactions }) => {
-  const [viewDetailsModalVisible, setViewDetailsModalVisible] = useState(false);
-  const [selectedTransaction, setSelectedTransaction] = useState<object | null>(null);
-
-  const handleClick = () => {
-    setSelectedTransaction({ id, description, type, category, method, account, amount, date, user, avatar, color });
-    setViewDetailsModalVisible(true);
-  }
-
-  return (
-    <>
-      <IonCard style={styles.card} onClick={() => handleClick()}>
-        <IonCardContent style={styles.cardContent}>
-          <IonAvatar slot="start" style={styles.avatar}>
-            <img
-              src={avatar}
-              alt="avatar"
-              style={styles.avatarImage}
-            />
-          </IonAvatar>
-
-          <div style={styles.textContainer}>
-            <p style={styles.description}>{description}</p>
-            <small style={styles.category(color)}>{category}</small>
-          </div>
-
-          <IonLabel slot="end" style={styles.label}>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', width: '100%' }}>
-              <span style={styles.amount}>{amount}</span>
-              <small style={styles.account}>{account}</small>
-              <IonImg style={styles.method} src={getMethodPhoto(method)} />
-            </div>
-          </IonLabel>
-        </IonCardContent>
-      </IonCard>
-
-      {selectedTransaction && <ViewDetailsModal
-        isOpen={viewDetailsModalVisible}
-        setIsOpen={setViewDetailsModalVisible}
-        selectedTransaction={selectedTransaction}
-        refreshTransactions={refreshTransactions}
-      />
-      }
-    </>
-  );
-}
-
-export default TransactionCard;

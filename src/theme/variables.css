@@ -39,6 +39,9 @@ http://ionicframework.com/docs/theming/ */
   --ion-button-secondary-background: var(--ion-color-secondary);
   --ion-button-secondary-text-color: var(--ion-color-secondary-contrast);
 
+  --ion-modal-background: "#d7d545";
+
+  --ion-background-color: #f3f3f3;
 
 }
 
@@ -52,11 +55,9 @@ ion-toolbar {
   --min-height: 80px;
 }
 
-.searchbar {
-  margin: 12px auto;
-}
+
 
 :root {
-  --background: #f5f5f5;
+  --background: #fff;
   /* Set your desired background color here */
 }

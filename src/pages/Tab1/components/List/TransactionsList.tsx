@@ -1,47 +1,59 @@
-import React, { useEffect, useState } from 'react';
-import { IonContent, IonList, IonSpinner, IonText } from '@ionic/react';
-import TransactionCard from './TransactionCard';
+import React from 'react';
+import { IonContent, IonList, IonSkeletonText, IonText, IonSpinner } from '@ionic/react';
 import { avatars, expenses_categories, income_categories, transfers_categories } from '../../../../utils/options';
-import { collection, getDocs } from 'firebase/firestore';
-import { db } from '../../../../utils/firebase';
 import { formatDateToDDMMYY } from '../../../../utils/functions';
+import { TransactionCard } from './TransactionCard';
 
-// Explicitly define styles as React.CSSProperties
-const styles: { list: React.CSSProperties, dateDiv: React.CSSProperties; dateText: React.CSSProperties, errorText: React.CSSProperties } = {
-  list: { marginBottom: "150px" },
-  dateDiv: { textAlign: "end", padding: "0px 20px" },
-  dateText: { color: "var(--ion-text-color-light)" },
-  errorText: { color: "red", textAlign: "center", marginTop: "20px" },
-};
+export default function TransactionsList({ type, items, loading, error, refreshTransactions }: { type: string, items: any[]; loading: boolean, error: string | null, refreshTransactions: () => void }) {
+  // Skeleton loader content
+  const renderSkeletonLoader = () => (
+    <IonList>
+      {[1, 2, 3, 4, 5].map((_, index) => (
+        <React.Fragment key={index}>
 
-function TransactionsList({ type, items, loading, error, refreshTransactions }: { type: string, items: any[]; loading: boolean, error: string | null, refreshTransactions: () => void }) {
+          <div style={skeletonStyles.date}>
+            <IonSkeletonText animated style={{ width: "100px", height: "10px" }} />
+          </div>
+
+          <div style={skeletonStyles.card}>
+            <IonSkeletonText animated style={{ width: "40px", height: "40px", borderRadius: "50%" }} />
+            <div style={{ flex: "1" }}>
+              <IonSkeletonText animated style={{ width: "60%", height: "15px", marginBottom: "5px" }} />
+              <IonSkeletonText animated style={{ width: "40%", height: "10px" }} />
+            </div>
+            <IonSkeletonText animated style={{ width: "60px", height: "15px" }} />
+          </div>
+        </React.Fragment>
+      ))}
+    </IonList>
+  );
+
   if (loading) {
     return (
       <IonContent>
-        <div style={{ textAlign: 'center', marginTop: '50px' }}>
-          <IonSpinner name="crescent" />
-          <p>Loading transactions...</p>
-        </div>
+        {renderSkeletonLoader()}
       </IonContent>
     );
   }
 
+  // Show error state
   if (error) {
     return (
       <IonContent>
-        <IonText style={styles.errorText}>{error}</IonText>
+        <IonText style={{ color: "red", textAlign: "center", marginTop: "20px" }}>{error}</IonText>
       </IonContent>
     );
   }
 
+  // Show transactions list
   return (
     <IonContent>
-      <IonList style={styles.list}>
+      <IonList style={{ marginBottom: "150px", background: "#f3f3f3" }}>
         {items.length > 0 ? (
           items.map((item: any) => (
             <React.Fragment key={item.id || Math.random()}>
-              <div style={styles.dateDiv}>
-                <small style={styles.dateText}>{formatDateToDDMMYY(item.date)}</small>
+              <div style={{ textAlign: "end", padding: "0px 20px" }}>
+                <small style={{ color: "var(--ion-text-color-light)" }}>{formatDateToDDMMYY(item.date)}</small>
               </div>
               <TransactionCard
                 id={item.id}
@@ -63,7 +75,6 @@ function TransactionsList({ type, items, loading, error, refreshTransactions }: 
                         ? transfers_categories.find((category) => category.value === item.category)?.color || "#dedede"
                         : "#dedede"
                 }
-
                 refreshTransactions={refreshTransactions}
               />
             </React.Fragment>
@@ -78,4 +89,15 @@ function TransactionsList({ type, items, loading, error, refreshTransactions }: 
   );
 }
 
-export default TransactionsList;
+
+const styles = {
+
+}
+
+const skeletonStyles: { card: React.CSSProperties; date: React.CSSProperties } = {
+  card: { padding: "15px 20px", display: "flex", alignItems: "center", gap: "10px", marginBottom: "10px" },
+  date: { margin: "10px 20px", textAlign: "end" },
+};
+
+
+
