@@ -25,7 +25,8 @@ export const TransactionCard: React.FC<TransactionCardProps> = ({ id, descriptio
 
         <div style={styles.textContainer}>
           <p style={styles.description}>{description}</p>
-          <small style={styles.category(color)}>{category}</small>
+          <small style={styles.account}>{account}</small>
+          {/* <small style={styles.category(color)}>{category}</small> */}
         </div>
 
         <IonLabel slot="end" style={styles.label}>
@@ -41,7 +42,6 @@ export const TransactionCard: React.FC<TransactionCardProps> = ({ id, descriptio
                   : `${amount}`}
             </span>
 
-            <small style={styles.account}>{account}</small>
             <IonImg style={styles.method} src={getMethodPhoto(method)} />
           </div>
         </IonLabel>
@@ -81,7 +81,7 @@ const styles = {
     borderRadius: '50%',
   },
   textContainer: {
-    flex: 1,
+    flex: 1
   },
   description: {
     color: '#000',
@@ -114,7 +114,7 @@ const styles = {
   },
   account: {
     fontSize: '12px',
-    color: '#555'
+    color: '#555',
   },
   amount: {
     fontSize: '15px',
@@ -126,7 +126,7 @@ const styles = {
 
 interface TransactionCardProps {
   id: string;
-  description: string;
+  description: string | undefined;
   type: string;
   category: string;
   method: string;

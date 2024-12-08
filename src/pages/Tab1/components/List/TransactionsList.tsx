@@ -55,7 +55,7 @@ export default function TransactionsList({ type, items, loading, error, refreshT
 
   return (
     <IonContent>
-      <IonList style={{ marginBottom: "150px", background: "#f3f3f3" }}>
+      <IonList style={{ marginBottom: "150px", background: "#f6f6f6" }}>
         {Object.keys(groupedTransactions).length > 0 ? (
           Object.keys(groupedTransactions).map((date) => {
             const transactions = groupedTransactions[date];
@@ -86,7 +86,7 @@ export default function TransactionsList({ type, items, loading, error, refreshT
                       />
                       {transactions?.length > 1 && index != transactions?.length - 1 &&
                         <hr style={{
-                          borderTop: '1px solid #dedede',
+                          borderTop: '1px solid #e4e4e4',
                           margin: '0 15px'
                         }} />
                       }
