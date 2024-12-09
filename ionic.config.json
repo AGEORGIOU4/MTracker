@@ -3,5 +3,11 @@
   "integrations": {
     "capacitor": {}
   },
+  "proxies": [
+    {
+      "path": "/api",
+      "proxyUrl": "https://bankaccountdata.gocardless.com"
+    }
+  ],
   "type": "react-vite"
 }
