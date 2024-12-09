@@ -9,9 +9,6 @@ import { db } from '../../../utils/firebase';
 import { FloatingButton } from '../../../components/FloatingButton';
 import { postRequest } from '../../../utils/gocardless';
 
-const secretId = process.env.REACT_APP_GOCARDLESS_SECRET_ID;
-const secretKey = process.env.REACT_APP_GOCARDLESS_SECRET_KEY;
-
 export const ExploreContainer: React.FC<ContainerProps> = ({ type, searchQuery }) => {
   const [selectTemplateModalVisible, setSelectTemplateModalVisible] = useState(false);
   const [editDetailsModalVisible, setEditDetailsModalVisible] = useState(false);
@@ -27,23 +24,23 @@ export const ExploreContainer: React.FC<ContainerProps> = ({ type, searchQuery }
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
+  // useEffect(() => {
+  //   const fetchData = async () => {
 
-      let data = {
-        secret_id: secretId,
-        secret_key: secretKey,
-      }
-      try {
-        const result = await postRequest('/token/new/', data);
-        console.log(result)
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
+  //     let data = {
+  //       secret_id: secretId,
+  //       secret_key: secretKey,
+  //     }
+  //     try {
+  //       const result = await postRequest('/token/new/', data);
+  //       console.log(result)
+  //     } catch (error) {
+  //       console.error('Error fetching data:', error);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
   useEffect(() => {
     const filtered = items.filter((item) => {
