@@ -11,14 +11,14 @@ import { person, pricetag, card, syncCircle, wallet, home, pencil, logoEuro } fr
 import { accounts, expenses_categories, income_categories, methods, transfers_categories, users } from '../../../../utils/options';
 import { doc, setDoc } from 'firebase/firestore';
 import { db } from '../../../../utils/firebase';
-import { v4 as uuidv4 } from 'uuid';
+import { formatDateToCustomString, toLocalISOString, toLocalISOStringDate } from '../../../../utils/functions';
 
 export const EditDetailsModal: React.FC<ModalProps> = ({ type, isOpen, setIsOpen, selectedTemplate, refreshTransactions }) => {
   const [user, setUser] = useState('Andreas');
   const [category, setCategory] = useState(selectedTemplate || 'Other');
   const [method, setMethod] = useState('Revolut');
   const [account, setAccount] = useState(type === "Expenses" ? 'Joint' : "Personal");
-  const [date, setDate] = useState<any>(new Date().toISOString());
+  const [date, setDate] = useState<any>(toLocalISOStringDate(new Date()));
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState('');
 
@@ -33,7 +33,7 @@ export const EditDetailsModal: React.FC<ModalProps> = ({ type, isOpen, setIsOpen
     setCategory('Other');
     setMethod('Revolut');
     setAccount('Joint');
-    setDate(new Date().toISOString());
+    setDate(toLocalISOStringDate(new Date()));
     setDescription('');
     setAmount('');
   };
@@ -42,7 +42,10 @@ export const EditDetailsModal: React.FC<ModalProps> = ({ type, isOpen, setIsOpen
     if (!description || !amount) {
       setShowAlert(true)
     } else {
-      const id = uuidv4();
+      let formattedDate = formatDateToCustomString(date);
+      formattedDate = toLocalISOString(formattedDate)
+
+      const id = formattedDate;
       const newTransaction = {
         id,
         user,
@@ -50,7 +53,7 @@ export const EditDetailsModal: React.FC<ModalProps> = ({ type, isOpen, setIsOpen
         category,
         method,
         account,
-        date,
+        date: formattedDate,
         description,
         amount: parseFloat(amount) || 0,
       };
@@ -59,7 +62,7 @@ export const EditDetailsModal: React.FC<ModalProps> = ({ type, isOpen, setIsOpen
         const transactionRef = doc(db, "transactions", id);
         await setDoc(transactionRef, {
           ...newTransaction,
-          timestamp: new Date(),
+          timestamp: date,
         });
       } catch (error) {
         console.error('Error saving transaction:', error);

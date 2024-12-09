@@ -8,7 +8,7 @@ import {
   IonRefresher,
   IonRefresherContent,
 } from '@ionic/react';
-import { avatars, expenses_categories, income_categories, transfers_categories } from '../../../../utils/options';
+import { avatars } from '../../../../utils/options';
 import { formatDateToDDMMYY, getTransactionColor } from '../../../../utils/functions';
 import { TransactionCard } from './TransactionCard';
 
@@ -90,7 +90,7 @@ export default function TransactionsList({ type, items, loading, error, refreshT
 
   // Render List
   return (
-    <IonContent>
+    <IonContent >
       <IonRefresher
         slot="fixed"
         onIonRefresh={(event) => {
@@ -101,7 +101,7 @@ export default function TransactionsList({ type, items, loading, error, refreshT
         <IonRefresherContent />
       </IonRefresher>
 
-      <IonList style={{ minHeight: '100vh', background: '#f6f6f6' }}>
+      <IonList style={{ marginBottom: "200px", background: '#f6f6f6' }}>
         {Object.keys(groupedTransactions).length > 0 ? (
           Object.keys(groupedTransactions).map((date) => {
             const transactions = groupedTransactions[date];
