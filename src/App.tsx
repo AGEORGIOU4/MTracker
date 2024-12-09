@@ -10,7 +10,7 @@ import {
   setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { arrowDownOutline, cashOutline, ellipse, square, swapHorizontalOutline, triangle } from 'ionicons/icons';
+import { arrowDownOutline, cashOutline, settingsOutline, square, swapHorizontalOutline } from 'ionicons/icons';
 import Tab1 from './pages/Tab1/Tab1';
 import Tab2 from './pages/Tab2/Tab2';
 import Tab3 from './pages/Tab3/Tab3';
@@ -45,6 +45,7 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 import './theme/main.css';
+import { Admin } from './pages/Admin/Admin';
 
 setupIonicReact();
 
@@ -53,6 +54,9 @@ const App: React.FC = () => (
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>
+          <Route exact path="/admin">
+            <Admin />
+          </Route>
           <Route exact path="/tab1">
             <Tab1 />
           </Route>
@@ -78,6 +82,10 @@ const App: React.FC = () => (
           <IonTabButton tab="tab3" href="/tab3">
             <IonIcon icon={swapHorizontalOutline} />
             <IonLabel>Transfers</IonLabel>
+          </IonTabButton>
+          <IonTabButton tab="tab4" href="/admin">
+            <IonIcon icon={settingsOutline} />
+            <IonLabel>Admin</IonLabel>
           </IonTabButton>
         </IonTabBar>
       </IonTabs>
