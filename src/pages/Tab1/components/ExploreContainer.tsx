@@ -3,18 +3,14 @@ import { useEffect, useState } from 'react';
 import MonthYearPicker from '../../../components/MonthYearPicker';
 import TransactionsList from './List/TransactionsList';
 import { SelectTemplateModal } from './Modals/SelectTemplateModal';
-import { EditDetailsModal } from './Modals/EditDetailsModal';
+import { CreateTransactionModal } from './Modals/CreateTransactionModal';
 import { collection, getDocs } from 'firebase/firestore';
-import { db } from '../../../utils/firebase';
+import { db } from '../../../auth/firebase';
 import { FloatingButton } from '../../../components/FloatingButton';
-import { postRequest } from '../../../utils/gocardless';
 
-export const ExploreContainer: React.FC<ContainerProps> = ({ type, searchQuery }) => {
+export const ExploreContainer: React.FC<ContainerProps> = ({ type, searchQuery, selectedMonth, selectedYear }) => {
   const [selectTemplateModalVisible, setSelectTemplateModalVisible] = useState(false);
   const [editDetailsModalVisible, setEditDetailsModalVisible] = useState(false);
-
-  const [selectedMonth, setSelectedMonth] = useState("");
-  const [selectedYear, setSelectedYear] = useState("");
 
   const [selectedTemplate, setSelectedTemplate] = useState("");
 
@@ -23,24 +19,6 @@ export const ExploreContainer: React.FC<ContainerProps> = ({ type, searchQuery }
 
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-
-  //     let data = {
-  //       secret_id: secretId,
-  //       secret_key: secretKey,
-  //     }
-  //     try {
-  //       const result = await postRequest('/token/new/', data);
-  //       console.log(result)
-  //     } catch (error) {
-  //       console.error('Error fetching data:', error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
 
   useEffect(() => {
     const filtered = items.filter((item) => {
@@ -54,12 +32,12 @@ export const ExploreContainer: React.FC<ContainerProps> = ({ type, searchQuery }
       );
     });
     setFilteredItems(filtered);
-
   }, [searchQuery]);
+
 
   useEffect(() => {
     fetchItems();
-  }, [selectedMonth, selectedYear]); // Refetch when month or year changes
+  }, [selectedMonth, selectedYear]);
 
   const fetchItems = async () => {
     setLoading(true);
@@ -71,7 +49,6 @@ export const ExploreContainer: React.FC<ContainerProps> = ({ type, searchQuery }
 
       querySnapshot.forEach((doc) => {
         const transaction = doc.data();
-
         if (transaction.date) {
           const date = new Date(transaction.date);
           if ((selectedYear && date.getFullYear().toString() === selectedYear) &&
@@ -84,7 +61,6 @@ export const ExploreContainer: React.FC<ContainerProps> = ({ type, searchQuery }
         }
       });
 
-      // Sort the transactions by date in descending order (most recent first)
       const sortedData = data.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
       setItems(sortedData);
@@ -94,11 +70,6 @@ export const ExploreContainer: React.FC<ContainerProps> = ({ type, searchQuery }
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleDateChange = (month: string, year: string) => {
-    setSelectedMonth(month);
-    setSelectedYear(year);
   };
 
   const handleClick = () => {
@@ -126,11 +97,10 @@ export const ExploreContainer: React.FC<ContainerProps> = ({ type, searchQuery }
 
   return (
     <>
-      <MonthYearPicker onChange={handleDateChange} />
-      <TransactionsList type={type} items={searchQuery.length > 2 ? filteredItems : items} loading={loading} error={error} refreshTransactions={refreshTransactions} />
       <FloatingButton handleClick={handleClick} />
+      <TransactionsList type={type} items={searchQuery.length > 2 ? filteredItems : items} loading={loading} error={error} refreshTransactions={refreshTransactions} />
       <SelectTemplateModal type={type} isOpen={selectTemplateModalVisible} setIsOpen={setSelectTemplateModalVisible} handleSkip={handleSkip} handleSelectTemplate={handleSelectTemplate} />
-      <EditDetailsModal type={type} isOpen={editDetailsModalVisible} setIsOpen={setEditDetailsModalVisible} selectedTemplate={selectedTemplate} refreshTransactions={refreshTransactions} />
+      <CreateTransactionModal type={type} isOpen={editDetailsModalVisible} setIsOpen={setEditDetailsModalVisible} selectedTemplate={selectedTemplate} refreshTransactions={refreshTransactions} />
     </>
   );
 };
@@ -138,4 +108,6 @@ export const ExploreContainer: React.FC<ContainerProps> = ({ type, searchQuery }
 interface ContainerProps {
   type: string;
   searchQuery: string;
+  selectedMonth: any;
+  selectedYear: any;
 }

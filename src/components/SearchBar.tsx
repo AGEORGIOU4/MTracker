@@ -7,7 +7,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({ handleSearch }) => {
   return (
     <>
       <IonSearchbar
-        mode='ios'
+
         showCancelButton="focus"
         className="custom"
         onIonInput={handleSearch} // Pass handleSearch to the onIonInput prop

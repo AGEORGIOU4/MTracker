@@ -1,22 +1,15 @@
-import { IonContent, IonHeader, IonPage, IonToolbar } from '@ionic/react';
-import { SearchBar } from '../../components/SearchBar';
 import { ExploreContainer } from './components/ExploreContainer';
-import { useState } from 'react';
+import { TabProps } from '../../utils/interfaces';
 
-const Tab1: React.FC = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const handleSearch = (e: any) => {
-    setSearchQuery(e.target.value)
-  }
-
+const Tab1: React.FC<TabProps> = ({ searchQuery, selectedMonth, selectedYear }) => {
   return (
-    <IonPage>
-      <IonContent fullscreen>
-        <SearchBar handleSearch={handleSearch} />
-        <ExploreContainer type="Expenses" searchQuery={searchQuery} />
-      </IonContent>
-    </IonPage>
+    <>
+      <ExploreContainer type="Debit" searchQuery={searchQuery} selectedMonth={selectedMonth} selectedYear={selectedYear} />
+    </>
   );
 };
 
 export default Tab1;
+
+
+

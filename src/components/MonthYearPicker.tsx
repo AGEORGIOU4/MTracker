@@ -40,10 +40,10 @@ export default function MonthYearPicker({ onChange }: MonthYearPickerProps) {
       <IonGrid>
         <IonRow>
 
-          <IonCol size="5">
+          <IonCol size='2'></IonCol>
+          <IonCol size="4">
             <IonSelect
-              mode='ios'
-              justify="end"
+              justify="start"
               interface="action-sheet"
               aria-label="Month"
               value={selectedMonth}
@@ -57,11 +57,10 @@ export default function MonthYearPicker({ onChange }: MonthYearPickerProps) {
             </IonSelect>
           </IonCol>
 
-          <IonCol size='2'></IonCol>
-          <IonCol size="5">
+
+          <IonCol size="4">
             <IonSelect
-              mode='ios'
-              justify="space-between"
+              justify="end"
               interface="action-sheet"
               aria-label="Year"
               value={selectedYear}
@@ -74,6 +73,7 @@ export default function MonthYearPicker({ onChange }: MonthYearPickerProps) {
               ))}
             </IonSelect>
           </IonCol>
+          <IonCol size='2'></IonCol>
         </IonRow>
       </IonGrid>
     </IonList>

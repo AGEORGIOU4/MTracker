@@ -1,5 +1,3 @@
-import { expenses_categories, income_categories, transfers_categories } from "./options";
-
 export function toLocalISOStringDate(date: Date): string {
   const pad = (n: number) => String(n).padStart(2, "0");
 
@@ -30,10 +28,10 @@ export function toLocalISOString(dateInput: string) {
   // Construct a Date object
   const formattedDate = new Date(`${year}-${month}-${day}T${timePart}`);
 
-  if (isNaN(formattedDate.getTime())) {
-    console.error("Invalid Date Input:", dateInput);
-    return "Invalid Date";
-  }
+  // if (isNaN(formattedDate.getTime())) {
+  //   console.error("Invalid Date Input:", dateInput);
+  //   return "Invalid Date";
+  // }
 
   const yearOut = formattedDate.getFullYear();
   const monthOut = pad(formattedDate.getMonth() + 1); // Months are 0-indexed
@@ -50,6 +48,8 @@ export function formatDateToCustomString(date: Date): string {
   if (!(date instanceof Date) || isNaN(date.getTime())) {
     return "Invalid Date";
   }
+
+  date = new Date(date)
 
   // Extract day, month, and year
   const day = String(date.getDate()).padStart(2, "0");
@@ -81,16 +81,3 @@ export function formatDateToDDMMYY(dateInput: string | Date): string {
 
   return `${day}/${month}/${year}`;
 }
-
-export const getTransactionColor = (type: string, category: string) => {
-  if (type === "Expenses") {
-    return expenses_categories.find((categoryObj) => categoryObj.value === category)?.color || "#dedede";
-  }
-  if (type === "Income") {
-    return income_categories.find((categoryObj) => categoryObj.value === category)?.color || "#dedede";
-  }
-  if (type === "Transfers") {
-    return transfers_categories.find((categoryObj) => categoryObj.value === category)?.color || "#dedede";
-  }
-  return "#dedede"; // Default color
-};

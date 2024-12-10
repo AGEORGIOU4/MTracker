@@ -9,7 +9,7 @@ import {
   IonRefresherContent,
 } from '@ionic/react';
 import { avatars } from '../../../../utils/options';
-import { formatDateToDDMMYY, getTransactionColor } from '../../../../utils/functions';
+import { formatDateToDDMMYY } from '../../../../utils/functions';
 import { TransactionCard } from './TransactionCard';
 
 export default function TransactionsList({ type, items, loading, error, refreshTransactions, }: { type: string; items: any[]; loading: boolean; error: string | null; refreshTransactions: () => void; }) {
@@ -63,7 +63,7 @@ export default function TransactionsList({ type, items, loading, error, refreshT
       <IonContent>
         <IonRefresher
           slot="fixed"
-          mode='ios'
+
           onIonRefresh={(event) => {
             refreshTransactions();
             event.detail.complete();
@@ -113,7 +113,7 @@ export default function TransactionsList({ type, items, loading, error, refreshT
                 </div>
 
                 {/* Transactions List */}
-                <IonCard mode="ios" style={styles.card}>
+                <IonCard style={styles.card}>
                   {transactions.map((item: any, index: any) => (
                     <React.Fragment key={item.id}>
                       <TransactionCard
@@ -130,7 +130,6 @@ export default function TransactionsList({ type, items, loading, error, refreshT
                           avatars.find((avatar) => avatar.user === item.user)?.photo ||
                           'https://via.placeholder.com/40'
                         }
-                        color={getTransactionColor(type, item.category)}
                         refreshTransactions={refreshTransactions}
                       />
                       {transactions.length > 1 && index !== transactions.length - 1 && (
