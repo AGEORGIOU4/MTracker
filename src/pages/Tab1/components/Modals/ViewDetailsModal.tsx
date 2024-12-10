@@ -8,7 +8,7 @@ import {
 } from '@ionic/react';
 import { person, wallet, pricetag, card, syncCircle, pencil, logoEuro } from 'ionicons/icons';
 import { deleteDoc, doc } from 'firebase/firestore';
-import { db } from '../../../../utils/firebase';
+import { db } from '../../../../auth/firebase';
 
 export const ViewDetailsModal: React.FC<ModalProps> = ({ isOpen, setIsOpen, selectedTransaction, refreshTransactions }) => {
   const [showAlert, setShowAlert] = useState(false);
@@ -62,12 +62,12 @@ export const ViewDetailsModal: React.FC<ModalProps> = ({ isOpen, setIsOpen, sele
 
       {/* Modal */}
       <IonModal isOpen={isOpen}>
-        <IonHeader mode='ios'>
+        <IonHeader >
           <IonToolbar>
             <IonButtons slot="start">
               <IonButton color="medium" onClick={handleClose}>Close</IonButton>
             </IonButtons>
-            <IonTitle>Transaction Details</IonTitle>
+            {/* <IonTitle>Transaction Details</IonTitle> */}
             <IonButtons slot="end">
               <IonButton color="danger" onClick={handleDelete}>Delete</IonButton>
             </IonButtons>

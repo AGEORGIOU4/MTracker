@@ -7,17 +7,17 @@ import {
   IonDatetime,
   IonAlert
 } from '@ionic/react';
-import { person, pricetag, card, syncCircle, wallet, home, pencil, logoEuro } from 'ionicons/icons';
-import { accounts, expenses_categories, income_categories, methods, transfers_categories, users } from '../../../../utils/options';
+import { person, pricetag, card, syncCircle, pencil, logoEuro } from 'ionicons/icons';
+import { accounts, credit_categories, debit_categories, methods, users } from '../../../../utils/options';
 import { doc, setDoc } from 'firebase/firestore';
-import { db } from '../../../../utils/firebase';
-import { formatDateToCustomString, toLocalISOString, toLocalISOStringDate } from '../../../../utils/functions';
+import { db } from '../../../../auth/firebase';
+import { toLocalISOStringDate } from '../../../../utils/functions';
 
-export const EditDetailsModal: React.FC<ModalProps> = ({ type, isOpen, setIsOpen, selectedTemplate, refreshTransactions }) => {
+export const CreateTransactionModal: React.FC<ModalProps> = ({ type, isOpen, setIsOpen, selectedTemplate, refreshTransactions }) => {
   const [user, setUser] = useState('Andreas');
   const [category, setCategory] = useState(selectedTemplate || 'Other');
   const [method, setMethod] = useState('Revolut');
-  const [account, setAccount] = useState(type === "Expenses" ? 'Joint' : "Personal");
+  const [account, setAccount] = useState("Joint");
   const [date, setDate] = useState<any>(toLocalISOStringDate(new Date()));
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState('');
@@ -42,10 +42,7 @@ export const EditDetailsModal: React.FC<ModalProps> = ({ type, isOpen, setIsOpen
     if (!description || !amount) {
       setShowAlert(true)
     } else {
-      let formattedDate = formatDateToCustomString(date);
-      formattedDate = toLocalISOString(formattedDate)
-
-      const id = formattedDate;
+      const id = date;
       const newTransaction = {
         id,
         user,
@@ -53,7 +50,7 @@ export const EditDetailsModal: React.FC<ModalProps> = ({ type, isOpen, setIsOpen
         category,
         method,
         account,
-        date: formattedDate,
+        date,
         description,
         amount: parseFloat(amount) || 0,
       };
@@ -92,14 +89,14 @@ export const EditDetailsModal: React.FC<ModalProps> = ({ type, isOpen, setIsOpen
       />
 
       <IonModal isOpen={isOpen}>
-        <IonHeader mode='ios'>
+        <IonHeader >
           <IonToolbar>
             <IonButtons slot="start">
               <IonButton color="medium" onClick={() => setIsOpen(false)}>Cancel</IonButton>
             </IonButtons>
-            <IonTitle>Transaction Details</IonTitle>
+            {/* <IonTitle>Transaction Details</IonTitle> */}
             <IonButtons slot="end">
-              <IonButton onClick={handleSave}>Confirm</IonButton>
+              <IonButton color="primary" onClick={handleSave}>Confirm</IonButton>
             </IonButtons>
           </IonToolbar>
         </IonHeader>
@@ -156,17 +153,12 @@ export const EditDetailsModal: React.FC<ModalProps> = ({ type, isOpen, setIsOpen
                       value={category}
                       onIonChange={(e) => setCategory(e.detail.value)}
                     >
-                      {type === "Expenses" && expenses_categories.map((c, index) => (
+                      {type === "Debit" && credit_categories.map((c, index) => (
                         <IonSelectOption key={index} value={c.value}>
                           {c.label}
                         </IonSelectOption>
                       ))}
-                      {type === "Income" && income_categories.map((c, index) => (
-                        <IonSelectOption key={index} value={c.value}>
-                          {c.label}
-                        </IonSelectOption>
-                      ))}
-                      {type === "Transfers" && transfers_categories.map((c, index) => (
+                      {type === "Credit" && debit_categories.map((c, index) => (
                         <IonSelectOption key={index} value={c.value}>
                           {c.label}
                         </IonSelectOption>
@@ -256,7 +248,7 @@ export const EditDetailsModal: React.FC<ModalProps> = ({ type, isOpen, setIsOpen
 
               <IonRow>
                 <IonCol size="12">
-                  <IonButton mode='ios' expand="block" onClick={handleSave}>
+                  <IonButton expand="block" onClick={handleSave}>
                     Save
                   </IonButton>
                 </IonCol>

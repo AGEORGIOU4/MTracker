@@ -4,7 +4,7 @@ import { add } from 'ionicons/icons';
 
 export const FloatingButton: React.FC<FloatingButtonProps> = ({ handleClick }) => {
   return (
-    <IonFab slot="fixed" horizontal="end" vertical="bottom">
+    <IonFab horizontal="end" vertical="bottom">
       <IonFabButton onClick={handleClick}>
         <IonIcon icon={add} />
       </IonFabButton>

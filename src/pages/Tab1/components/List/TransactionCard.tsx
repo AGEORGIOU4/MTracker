@@ -3,12 +3,12 @@ import { IonAvatar, IonCard, IonCardContent, IonImg, IonLabel } from '@ionic/rea
 import { getMethodPhoto } from '../../../../utils/options';
 import { ViewDetailsModal } from '../Modals/ViewDetailsModal';
 
-export const TransactionCard: React.FC<TransactionCardProps> = ({ id, description, type, category, method, account, amount, date, user, avatar, color, refreshTransactions }) => {
+export const TransactionCard: React.FC<TransactionCardProps> = ({ id, description, type, category, method, account, amount, date, user, avatar, refreshTransactions }) => {
   const [viewDetailsModalVisible, setViewDetailsModalVisible] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState<object | null>(null);
 
   const handleClick = () => {
-    setSelectedTransaction({ id, description, type, category, method, account, amount, date, user, avatar, color });
+    setSelectedTransaction({ id, description, type, category, method, account, amount, date, user, avatar });
     setViewDetailsModalVisible(true);
   }
 
@@ -26,7 +26,6 @@ export const TransactionCard: React.FC<TransactionCardProps> = ({ id, descriptio
         <div style={styles.textContainer}>
           <p style={styles.description}>{description?.toUpperCase()}</p>
           <small style={styles.account}>{account}</small>
-          {/* <small style={styles.category(color)}>{category}</small> */}
         </div>
 
         <IonLabel slot="end" style={styles.label}>
@@ -38,9 +37,7 @@ export const TransactionCard: React.FC<TransactionCardProps> = ({ id, descriptio
           }}>
             <IonImg style={styles.method} src={getMethodPhoto(method)} />
             <span style={styles.amount}>
-              {type === "Expenses" ? `- ${amount}`
-                : type === "Income" ? `+ ${amount}`
-                  : `${amount}`}
+              {type === "Debit" ? `- ${amount}` : `+ ${amount}`}
             </span>
           </div>
         </IonLabel>
@@ -135,6 +132,5 @@ interface TransactionCardProps {
   date: string;
   user: string;
   avatar: string | undefined;
-  color: string;
   refreshTransactions: () => void;
 }

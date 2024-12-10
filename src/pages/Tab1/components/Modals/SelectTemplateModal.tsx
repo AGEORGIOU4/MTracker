@@ -14,7 +14,7 @@ import {
   IonCard,
   IonCardContent,
 } from '@ionic/react';
-import { expenses_categories, income_categories, transfers_categories } from '../../../../utils/options';
+import { credit_categories, debit_categories } from '../../../../utils/options';
 
 export const SelectTemplateModal: React.FC<ModalProps> = ({
   type,
@@ -26,7 +26,7 @@ export const SelectTemplateModal: React.FC<ModalProps> = ({
   return (
     <>
       <IonModal isOpen={isOpen} aria-hidden="false">
-        <IonHeader mode='ios'>
+        <IonHeader >
           <IonToolbar>
             <IonButtons slot="start">
               <IonButton color="medium" onClick={() => setIsOpen(false)}>
@@ -34,19 +34,17 @@ export const SelectTemplateModal: React.FC<ModalProps> = ({
               </IonButton>
             </IonButtons>
 
-            <IonTitle>Select Type</IonTitle>
+            {/* <IonTitle>Select Type</IonTitle> */}
 
             <IonButtons slot="end">
-              <IonButton onClick={() => handleSkip()}>
-                Skip
-              </IonButton>
+              <IonButton color="primary" onClick={() => handleSkip()}>Skip</IonButton>
             </IonButtons>
           </IonToolbar>
         </IonHeader>
         <IonContent className="ion-padding">
           <IonGrid>
             <IonRow>
-              {type === "Expenses" && expenses_categories.map((transaction, index) => (
+              {type === "Debit" && credit_categories.map((transaction, index) => (
                 <IonCol size="4" key={index}>
                   <IonCard
                     button
@@ -61,22 +59,7 @@ export const SelectTemplateModal: React.FC<ModalProps> = ({
                 </IonCol>
               ))}
 
-              {type === "Income" && income_categories.map((transaction, index) => (
-                <IonCol size="4" key={index}>
-                  <IonCard
-                    button
-                    onClick={() => handleSelectTemplate(transaction)}
-                    style={styles.buttonCard(transaction.color)}
-                  >
-                    <IonCardContent style={styles.cardContent}>
-                      <IonIcon icon={transaction.icon} />
-                      <div>{transaction.label}</div>
-                    </IonCardContent>
-                  </IonCard>
-                </IonCol>
-              ))}
-
-              {type === "Transfers" && transfers_categories.map((transaction, index) => (
+              {type === "Credit" && debit_categories.map((transaction, index) => (
                 <IonCol size="4" key={index}>
                   <IonCard
                     button
