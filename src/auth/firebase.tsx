@@ -3,7 +3,7 @@ import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAYJeG2MG5zSITflLCmP90Xna4MO5Ojo4U",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: "mtracker-9b44e.firebaseapp.com",
   projectId: "mtracker-9b44e",
   storageBucket: "mtracker-9b44e.firebasestorage.app",

@@ -37,7 +37,7 @@ export default function MonthYearPicker({ onChange }: MonthYearPickerProps) {
 
   return (
     <IonList style={styles.list}>
-      <IonGrid>
+      <IonGrid style={styles.grid}>
         <IonRow>
 
           <IonCol size='2'></IonCol>
@@ -82,7 +82,10 @@ export default function MonthYearPicker({ onChange }: MonthYearPickerProps) {
 
 const styles = {
   list: {
-    marginBottom: '10px',
+    padding: "0"
+  },
+  grid: {
+    padding: "0"
   },
 };
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IonAvatar, IonCard, IonCardContent, IonImg, IonLabel } from '@ionic/react';
+import { IonAvatar, IonCardContent, IonImg, IonLabel } from '@ionic/react';
 import { getMethodPhoto } from '../../../../utils/options';
 import { ViewDetailsModal } from '../Modals/ViewDetailsModal';
 
@@ -109,8 +109,14 @@ const styles = {
     width: "20px"
   },
   account: {
-    fontSize: '12px',
-    color: '#555',
+    backgroundColor: "#ffd6b6",
+    color: "#602a00",
+    borderRadius: "20px",
+    fontWeight: "500",
+    fontSize: "12px",
+    margin: "4px 0",
+    padding: "0px 10px",
+    display: "inline-block",
   },
   amount: {
     marginTop: '10px',
