@@ -48,6 +48,12 @@ export const Tab3 = () => {
 
         <IonCard>
           <AccountCard id='1' bank='Hellenic Bank' accountName='Georgiou Andreas' accountNumber='472-01-975274-01' accountType='Savings Account' user='Andreas' balance='€3500' />
+          <hr
+            style={{
+              borderTop: '1px solid #e4e4e4',
+              margin: '0 15px',
+            }}
+          />
           <AccountCard id='1' bank='Hellenic Bank' accountName='Chatzianastasi Konstantina' accountNumber='472-01-975274-01' accountType='180Days Notice' user='Andreas' balance='€2700' />
         </IonCard>
 

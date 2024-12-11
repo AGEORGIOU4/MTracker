@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { IonAvatar, IonCard, IonCardContent, IonImg, IonLabel } from '@ionic/react';
+import React from 'react';
+import { IonCardContent, IonImg, IonLabel } from '@ionic/react';
 import { getMethodPhoto } from '../../../utils/options';
 
 export const AccountCard: React.FC<AccountCardProps> = ({ id, bank, accountName, accountNumber, accountType, user, balance }) => {
@@ -12,7 +12,7 @@ export const AccountCard: React.FC<AccountCardProps> = ({ id, bank, accountName,
           <p style={styles.accountName}>{accountName?.toUpperCase()}</p>
           <small style={styles.accountType}>{accountType}</small>
           <br />
-          <small style={styles.accountNumber}>{accountNumber}</small>
+          <span style={styles.accountNumber}>{accountNumber}</span>
         </div>
 
         <IonLabel slot="end" style={styles.label}>
@@ -49,15 +49,12 @@ const styles = {
   textContainer: {
     flex: 1
   },
-  accountType: {
-    backgroundColor: "#ffd6b6",
-    color: "#602a00",
-    borderRadius: "20px",
-    fontWeight: "500",
-    fontSize: "14px",
-    margin: "4px 0",
-    padding: "0px 10px",
-    display: "inline-block",
+  label: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+    height: '100%',
+    textAlign: "end"
   },
   accountName: {
     color: '#000',
@@ -66,21 +63,15 @@ const styles = {
     fontSize: '14px',
     marginBottom: "4px"
   },
-  categoryAccountContainer: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    width: '100%',
-  },
-
-  label: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-end',
-    height: '100%',
-    textAlign: "end"
-  },
-  bank: {
-    width: "20px"
+  accountType: {
+    backgroundColor: "#ffd6b6",
+    color: "#602a00",
+    borderRadius: "20px",
+    fontWeight: "500",
+    fontSize: "14px",
+    margin: "4px -4px",
+    padding: "0px 10px",
+    display: "inline-block",
   },
   accountNumber: {
     fontSize: '12px',
@@ -92,6 +83,10 @@ const styles = {
     color: '#000',
     whiteSpace: 'nowrap',
   },
+  bank: {
+    width: "20px"
+  },
+
 };
 
 interface AccountCardProps {

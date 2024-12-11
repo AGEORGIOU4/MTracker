@@ -4,7 +4,7 @@ import { TabProps } from '../../utils/interfaces';
 const Tab1: React.FC<TabProps> = ({ searchQuery, selectedMonth, selectedYear }) => {
   return (
     <>
-      <ExploreContainer type="Debit" searchQuery={searchQuery} selectedMonth={selectedMonth} selectedYear={selectedYear} />
+      <ExploreContainer type="All" searchQuery={searchQuery} selectedMonth={selectedMonth} selectedYear={selectedYear} />
     </>
   );
 };

@@ -160,8 +160,7 @@ const styles = {
   card: {
     margin: '10px 20px',
     padding: '0px',
-    background: '#fff',
-    boxShadow: 'none',
+    background: '#fff'
   },
 };
 

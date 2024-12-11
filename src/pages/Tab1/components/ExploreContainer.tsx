@@ -53,9 +53,7 @@ export const ExploreContainer: React.FC<ContainerProps> = ({ type, searchQuery, 
           const date = new Date(transaction.date);
           if ((selectedYear && date.getFullYear().toString() === selectedYear) &&
             (selectedMonth ? (date.getMonth() + 1).toString() === selectedMonth : true)) {
-            if (type === transaction.type) {
-              data.push(transaction);
-            }
+            data.push(transaction);
           }
 
         }
