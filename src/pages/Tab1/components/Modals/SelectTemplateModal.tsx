@@ -6,7 +6,7 @@ import {
   IonHeader,
   IonContent,
   IonToolbar,
-  IonTitle,
+
   IonIcon,
   IonGrid,
   IonCol,
@@ -14,7 +14,7 @@ import {
   IonCard,
   IonCardContent,
 } from '@ionic/react';
-import { credit_categories, debit_categories } from '../../../../utils/options';
+import { payment_categories } from '../../../../utils/options';
 
 export const SelectTemplateModal: React.FC<ModalProps> = ({
   type,
@@ -44,35 +44,25 @@ export const SelectTemplateModal: React.FC<ModalProps> = ({
         <IonContent className="ion-padding">
           <IonGrid>
             <IonRow>
-              {type === "Debit" && credit_categories.map((transaction, index) => (
-                <IonCol size="4" key={index}>
-                  <IonCard
-                    button
-                    onClick={() => handleSelectTemplate(transaction)}
-                    style={styles.buttonCard(transaction.color)}
-                  >
-                    <IonCardContent style={styles.cardContent}>
-                      <IonIcon icon={transaction.icon} />
-                      <div>{transaction.label}</div>
-                    </IonCardContent>
-                  </IonCard>
-                </IonCol>
-              ))}
+              {payment_categories.map((transaction, index) => {
+                return (
+                  <IonCol size="4" key={index}>
+                    <IonCard
+                      button
+                      onClick={() => handleSelectTemplate(transaction)}
+                      style={styles.buttonCard(transaction.color)}
+                    >
+                      <IonCardContent style={styles.cardContent}>
+                        <IonIcon icon={transaction.icon} />
+                        <div>{transaction.label}</div>
+                      </IonCardContent>
+                    </IonCard>
+                  </IonCol>
+                )
+              }
+              )}
 
-              {type === "Credit" && debit_categories.map((transaction, index) => (
-                <IonCol size="4" key={index}>
-                  <IonCard
-                    button
-                    onClick={() => handleSelectTemplate(transaction)}
-                    style={styles.buttonCard(transaction.color)}
-                  >
-                    <IonCardContent style={styles.cardContent}>
-                      <IonIcon icon={transaction.icon} />
-                      <div>{transaction.label}</div>
-                    </IonCardContent>
-                  </IonCard>
-                </IonCol>
-              ))}
+
 
             </IonRow>
           </IonGrid>
@@ -92,7 +82,7 @@ const styles = {
     justifyContent: "center",
     background: "#fff",
     boxShadow: "none",
-    color: "#007aff"
+    color: "#34505e"
   }),
   cardContent: {
     textAlign: "center",

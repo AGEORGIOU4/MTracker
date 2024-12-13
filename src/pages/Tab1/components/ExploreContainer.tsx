@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 
-import MonthYearPicker from '../../../components/MonthYearPicker';
 import TransactionsList from './List/TransactionsList';
 import { SelectTemplateModal } from './Modals/SelectTemplateModal';
 import { CreateTransactionModal } from './Modals/CreateTransactionModal';
@@ -23,10 +22,11 @@ export const ExploreContainer: React.FC<ContainerProps> = ({ type, searchQuery, 
   useEffect(() => {
     const filtered = items.filter((item) => {
       return (
-        item.account.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
         item.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.method.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.paymentMethod.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.bank.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.account.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.amount.toLowerCase().includes(searchQuery.toLowerCase()) ||
         item.type.toLowerCase().includes(searchQuery.toLowerCase()) ||
         item.user.toLowerCase().includes(searchQuery.toLowerCase())
       );

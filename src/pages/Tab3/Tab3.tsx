@@ -1,16 +1,12 @@
 import { IonCard, IonItem, IonItemDivider, IonItemGroup, IonLabel } from '@ionic/react';
 import { AccountCard } from './components/AccountCard';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export const Tab3 = () => {
-
-  // https://<region>-<project-id>.cloudfunctions.net/proxyGoCardless
-  // https://us-central1-mtracker-9b44e.cloudfunctions.net/proxyGoCardless
-  const [response, setResponse] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchData = async () => {
-    const proxyUrl = 'https://us-central1-mtracker-9b44e.cloudfunctions.net/proxyGoCardless';
+  const getToken = async () => {
+    const proxyUrl = import.meta.env.VITE_FIREBASE_FUNCTIONS_PROXY_URL;
 
     try {
       const result = await fetch(proxyUrl, {
@@ -25,7 +21,7 @@ export const Tab3 = () => {
       });
 
       const data = await result.json();
-      setResponse(data);
+      return data;
     } catch (err: any) {
       setError(`Error: ${err.message}`);
       console.error('Error:', err);
@@ -33,14 +29,14 @@ export const Tab3 = () => {
   };
 
 
+  useEffect(() => {
+    getToken().then((result) => {
+      console.log(result)
+    });
+  }, [])
   return (
     <>
-      <div>
-        <h1>GoCardless API Proxy</h1>
-        <button onClick={fetchData}>Fetch Data</button>
-        {response && <pre>{JSON.stringify(response, null, 2)}</pre>}
-        {error && <p>{error}</p>}
-      </div>
+
       <IonItemGroup>
         <IonItemDivider>
           <IonLabel>Bank of Cyprus</IonLabel>

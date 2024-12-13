@@ -12,7 +12,7 @@ import { avatars } from '../../../../utils/options';
 import { formatDateToDDMMYY } from '../../../../utils/functions';
 import { TransactionCard } from './TransactionCard';
 
-export default function TransactionsList({ type, items, loading, error, refreshTransactions, }: { type: string; items: any[]; loading: boolean; error: string | null; refreshTransactions: () => void; }) {
+export default function TransactionsList({ items, loading, error, refreshTransactions, }: { type: string; items: any[]; loading: boolean; error: string | null; refreshTransactions: () => void; }) {
   const renderSkeletonLoader = () => (
     <IonList>
       {[1, 2, 3, 4, 5, 6, 7, 8].map((_, index) => (
@@ -119,12 +119,13 @@ export default function TransactionsList({ type, items, loading, error, refreshT
                       <TransactionCard
                         id={item.id}
                         description={item.description || 'No Description'}
-                        type={item.type || 'No Type'}
-                        category={item.category || 'Uncategorized'}
-                        method={item.method || 'Unknown'}
+                        paymentMethod={item.paymentMethod || 'Unknown'}
+                        bank={item.bank || 'Unknown'}
                         account={item.account || 'Unknown Account'}
-                        user={item.user || 'Unknown User'}
                         amount={`€${(parseFloat(item.amount) || 0).toFixed(2)}`}
+                        type={item.type || 'No Type'}
+                        user={item.user || 'Unknown User'}
+                        category={item.category || 'Uncategorized'}
                         date={item.date}
                         avatar={
                           avatars.find((avatar) => avatar.user === item.user)?.photo ||

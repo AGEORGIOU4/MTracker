@@ -3,35 +3,29 @@ http://ionicframework.com/docs/theming/ */
 /* Default light theme variables */
 :root {
   /* Primary Colors */
-  --ion-color-primary: #007aff;
-  --ion-color-primary-rgb: 56, 128, 255;
+  --ion-color-primary: #61509f;
+  --ion-color-primary-rgb: 97, 80, 159;
   --ion-color-primary-contrast: #ffffff;
   --ion-color-primary-contrast-rgb: 255, 255, 255;
-  --ion-color-primary-shade: #3171e0;
-  --ion-color-primary-tint: #4c8dff;
+  --ion-color-primary-shade: #54488c;
+  --ion-color-primary-tint: #7263b2;
 
   /* Secondary Colors */
-  --ion-color-secondary: #0cd1e8;
-  --ion-color-secondary-rgb: 12, 209, 232;
+  --ion-color-secondary-rgb: 96, 125, 139;
   --ion-color-secondary-contrast: #ffffff;
   --ion-color-secondary-contrast-rgb: 255, 255, 255;
-  --ion-color-secondary-shade: #09a5c0;
-  --ion-color-secondary-tint: #33d8e7;
+  --ion-color-secondary-shade: #546e7a;
+  --ion-color-secondary-tint: #78909c;
 
   /* Light background and text colors */
   --ion-color-light: #ffffff;
   --ion-color-light-rgb: 255, 255, 255;
   --ion-color-dark: #222428;
   --ion-color-dark-rgb: 34, 36, 40;
-  --ion-text-color: #000000;
-  --ion-text-color-light: #ababab;
-  --ion-text-color-rgb: 0, 0, 0;
+  --ion-text-color: #2b3a42;
+  --ion-text-color-light: #87939b;
+  --ion-text-color-rgb: 43, 58, 66;
 
-  /* Tab Bar */
-  --ion-tab-bar-background: #ffffff;
-  --ion-tab-bar-border-color: #ddd;
-  --ion-tab-bar-text-color: #000;
-  --ion-tab-bar-text-color-selected: #3880ff;
 
   /* Button */
   --ion-button-primary-background: var(--ion-color-primary);
@@ -39,10 +33,9 @@ http://ionicframework.com/docs/theming/ */
   --ion-button-secondary-background: var(--ion-color-secondary);
   --ion-button-secondary-text-color: var(--ion-color-secondary-contrast);
 
-  --ion-modal-background: "#d7d545";
-
+  /* Modal and Background */
+  --ion-modal-background: #d7d545;
   --ion-background-color: #f6f6f6;
-
 }
 
 ion-fab-button {

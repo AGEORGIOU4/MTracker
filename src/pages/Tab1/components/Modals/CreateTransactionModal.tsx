@@ -7,20 +7,22 @@ import {
   IonDatetime,
   IonAlert
 } from '@ionic/react';
-import { person, pricetag, card, syncCircle, pencil, logoEuro } from 'ionicons/icons';
-import { accounts, credit_categories, debit_categories, methods, users } from '../../../../utils/options';
+import { person, pricetag, card, syncCircle, pencil, logoEuro, business } from 'ionicons/icons';
+import { accountTypes, banks, payment_categories, paymentMethods, users } from '../../../../utils/options';
 import { doc, setDoc } from 'firebase/firestore';
 import { db } from '../../../../auth/firebase';
 import { toLocalISOStringDate } from '../../../../utils/functions';
 
-export const CreateTransactionModal: React.FC<ModalProps> = ({ type, isOpen, setIsOpen, selectedTemplate, refreshTransactions }) => {
+export const CreateTransactionModal: React.FC<ModalProps> = ({ isOpen, setIsOpen, selectedTemplate, refreshTransactions }) => {
+  const [description, setDescription] = useState('');
+  const [paymentMethod, setPaymentMethod] = useState('Bank Transfer');
+  const [bank, setBank] = useState('Revolut');
+  const [account, setAccount] = useState("Joint");
+  const [amount, setAmount] = useState('');
+  const [type, setType] = useState('Debit');
   const [user, setUser] = useState('Andreas');
   const [category, setCategory] = useState(selectedTemplate || 'Other');
-  const [method, setMethod] = useState('Revolut');
-  const [account, setAccount] = useState("Joint");
   const [date, setDate] = useState<any>(toLocalISOStringDate(new Date()));
-  const [description, setDescription] = useState('');
-  const [amount, setAmount] = useState('');
 
   const [showAlert, setShowAlert] = useState(false);
 
@@ -29,13 +31,15 @@ export const CreateTransactionModal: React.FC<ModalProps> = ({ type, isOpen, set
   }, [selectedTemplate]);
 
   const resetFields = () => {
+    setDescription('');
+    setPaymentMethod('Bank Transfer');
+    setBank('Revolut');
+    setAccount('Joint');
+    setAmount('');
+    setType('Debit');
     setUser('Andreas');
     setCategory('Other');
-    setMethod('Revolut');
-    setAccount('Joint');
     setDate(toLocalISOStringDate(new Date()));
-    setDescription('');
-    setAmount('');
   };
 
   const handleSave = async () => {
@@ -45,14 +49,15 @@ export const CreateTransactionModal: React.FC<ModalProps> = ({ type, isOpen, set
       const id = date;
       const newTransaction = {
         id,
-        user,
-        type,
-        category,
-        method,
-        account,
-        date,
         description,
+        paymentMethod,
+        bank: bank,
+        account,
         amount: parseFloat(amount) || 0,
+        type,
+        user,
+        category,
+        date
       };
 
       try {
@@ -153,22 +158,18 @@ export const CreateTransactionModal: React.FC<ModalProps> = ({ type, isOpen, set
                       value={category}
                       onIonChange={(e) => setCategory(e.detail.value)}
                     >
-                      {type === "Debit" && credit_categories.map((c, index) => (
-                        <IonSelectOption key={index} value={c.value}>
-                          {c.label}
+                      {payment_categories.map((p, index) => (
+                        <IonSelectOption key={index} value={p.value}>
+                          {p.label}
                         </IonSelectOption>
                       ))}
-                      {type === "Credit" && debit_categories.map((c, index) => (
-                        <IonSelectOption key={index} value={c.value}>
-                          {c.label}
-                        </IonSelectOption>
-                      ))}
+
                     </IonSelect>
                   </IonItem>
                 </IonCol>
               </IonRow>
 
-              {/* Method */}
+              {/*Payment Method */}
               <IonRow>
                 <IonCol size="12">
                   <IonItem>
@@ -177,12 +178,34 @@ export const CreateTransactionModal: React.FC<ModalProps> = ({ type, isOpen, set
                       mode='ios'
                       label="Method"
                       labelPlacement="floating" fill="solid"
-                      value={method}
-                      onIonChange={(e) => setMethod(e.detail.value)}
+                      value={paymentMethod}
+                      onIonChange={(e) => setPaymentMethod(e.detail.value)}
                     >
-                      {methods.map((m, index) => (
-                        <IonSelectOption key={index} value={m.value}>
-                          {m.label}
+                      {paymentMethods.map((m, index) => (
+                        <IonSelectOption key={index} value={m}>
+                          {m}
+                        </IonSelectOption>
+                      ))}
+                    </IonSelect>
+                  </IonItem>
+                </IonCol>
+              </IonRow>
+
+              {/*Bank */}
+              <IonRow>
+                <IonCol size="12">
+                  <IonItem>
+                    <IonIcon slot="start" icon={business} color='primary' />
+                    <IonSelect
+                      mode='ios'
+                      label="Bank"
+                      labelPlacement="floating" fill="solid"
+                      value={bank}
+                      onIonChange={(e) => setBank(e.detail.value)}
+                    >
+                      {banks.map((b, index) => (
+                        <IonSelectOption key={index} value={b.value}>
+                          {b.value}
                         </IonSelectOption>
                       ))}
                     </IonSelect>
@@ -202,7 +225,7 @@ export const CreateTransactionModal: React.FC<ModalProps> = ({ type, isOpen, set
                       value={account}
                       onIonChange={(e) => setAccount(e.detail.value)}
                     >
-                      {accounts.map((a, index) => (
+                      {accountTypes.map((a, index) => (
                         <IonSelectOption key={index} value={a.value}>
                           {a.label}
                         </IonSelectOption>

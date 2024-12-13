@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { IonAvatar, IonCardContent, IonImg, IonLabel } from '@ionic/react';
-import { getMethodPhoto } from '../../../../utils/options';
+import { getBankColor, getBankPhoto } from '../../../../utils/options';
 import { ViewDetailsModal } from '../Modals/ViewDetailsModal';
 
-export const TransactionCard: React.FC<TransactionCardProps> = ({ id, description, type, category, method, account, amount, date, user, avatar, refreshTransactions }) => {
+export const TransactionCard: React.FC<TransactionCardProps> = ({ id, description, paymentMethod, bank, account, amount, type, user, category, date, avatar, refreshTransactions }) => {
   const [viewDetailsModalVisible, setViewDetailsModalVisible] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState<object | null>(null);
 
   const handleClick = () => {
-    setSelectedTransaction({ id, description, type, category, method, account, amount, date, user, avatar });
+    setSelectedTransaction({ id, description, paymentMethod, bank, account, amount, type, user, category, date, avatar });
     setViewDetailsModalVisible(true);
   }
 
@@ -25,7 +25,18 @@ export const TransactionCard: React.FC<TransactionCardProps> = ({ id, descriptio
 
         <div style={styles.textContainer}>
           <p style={styles.description}>{description?.toUpperCase()}</p>
-          <small style={styles.account}>{account}</small>
+          <small
+            style={{
+              backgroundColor: getBankColor(bank)[0],
+              color: getBankColor(bank)[1],
+              borderRadius: "20px",
+              fontWeight: "500",
+              fontSize: "12px",
+              margin: "4px 0",
+              padding: "0px 10px",
+              display: "inline-block",
+            }}
+          >{account}</small>
         </div>
 
         <IonLabel slot="end" style={styles.label}>
@@ -35,7 +46,7 @@ export const TransactionCard: React.FC<TransactionCardProps> = ({ id, descriptio
             alignItems: 'flex-end',
             width: '100%'
           }}>
-            <IonImg style={styles.method} src={getMethodPhoto(method)} />
+            <IonImg style={styles.bank} src={getBankPhoto(bank)} />
             <span style={styles.amount}>
               {type === "Debit" ? `- ${amount}` : `+ ${amount}`}
             </span>
@@ -80,7 +91,7 @@ const styles = {
     flex: 1
   },
   description: {
-    color: '#000',
+    color: '#34505e',
     fontWeight: '500',
     margin: '0',
     fontSize: '14px',
@@ -105,11 +116,11 @@ const styles = {
     height: '100%',
     textAlign: "end"
   },
-  method: {
+  bank: {
     width: "20px"
   },
-  account: {
-    backgroundColor: "#ffd6b6",
+  account: (bank: any) => ({
+    backgroundColor: getBankColor(bank),
     color: "#602a00",
     borderRadius: "20px",
     fontWeight: "500",
@@ -117,7 +128,7 @@ const styles = {
     margin: "4px 0",
     padding: "0px 10px",
     display: "inline-block",
-  },
+  }),
   amount: {
     marginTop: '10px',
     fontSize: '15px',
@@ -130,13 +141,14 @@ const styles = {
 interface TransactionCardProps {
   id: string;
   description: string | undefined;
-  type: string;
-  category: string;
-  method: string;
-  account: string;
+  paymentMethod: string;
+  bank: string;
+  account: string | undefined;
   amount: string;
-  date: string;
+  type: string;
   user: string;
+  category: string;
+  date: string;
   avatar: string | undefined;
   refreshTransactions: () => void;
 }
