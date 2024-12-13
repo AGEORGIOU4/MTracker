@@ -1,6 +1,6 @@
 import React from 'react';
 import { IonCardContent, IonImg, IonLabel } from '@ionic/react';
-import { getMethodPhoto } from '../../../utils/options';
+import { getBankColor, getBankPhoto } from '../../../utils/options';
 
 export const AccountCard: React.FC<AccountCardProps> = ({ id, bank, accountName, accountNumber, accountType, user, balance }) => {
 
@@ -10,9 +10,21 @@ export const AccountCard: React.FC<AccountCardProps> = ({ id, bank, accountName,
 
         <div style={styles.textContainer}>
           <p style={styles.accountName}>{accountName?.toUpperCase()}</p>
-          <small style={styles.accountType}>{accountType}</small>
-          <br />
           <span style={styles.accountNumber}>{accountNumber}</span>
+          <br />
+          <small
+            style={{
+              backgroundColor: getBankColor(bank)[0],
+              color: getBankColor(bank)[1],
+              borderRadius: "20px",
+              fontWeight: "500",
+              fontSize: "12px",
+              margin: "5px -2px",
+              padding: "0px 10px",
+              display: "inline-block",
+            }}
+          >
+            {accountType}</small>
         </div>
 
         <IonLabel slot="end" style={styles.label}>
@@ -22,7 +34,7 @@ export const AccountCard: React.FC<AccountCardProps> = ({ id, bank, accountName,
             alignItems: 'flex-end',
             width: '100%'
           }}>
-            <IonImg style={styles.bank} src={getMethodPhoto(bank)} />
+            <IonImg style={styles.bank} src={getBankPhoto(bank)} />
             <span style={styles.amount}>
               {balance}
             </span>
@@ -61,17 +73,7 @@ const styles = {
     fontWeight: '500',
     margin: '0',
     fontSize: '14px',
-    marginBottom: "4px"
-  },
-  accountType: {
-    backgroundColor: "#ffd6b6",
-    color: "#602a00",
-    borderRadius: "20px",
-    fontWeight: "500",
-    fontSize: "14px",
-    margin: "4px -4px",
-    padding: "0px 10px",
-    display: "inline-block",
+    marginBottom: "0px"
   },
   accountNumber: {
     fontSize: '12px',

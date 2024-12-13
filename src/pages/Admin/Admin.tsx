@@ -3,6 +3,7 @@ import { useRef, useState } from 'react';
 import { doc, setDoc, getDoc, updateDoc, query, where, collection, getDocs } from 'firebase/firestore'; // Import Firestore functions
 import { db } from '../../auth/firebase';
 import { convertBoCCSVToJSON, convertRevolutCSVToJSON } from './functions';
+import { signOutUser } from '../../auth/googleSignIn';
 
 export const Admin: React.FC = () => {
   const [jsonData, setJsonData] = useState<any[]>([]);
@@ -21,8 +22,9 @@ export const Admin: React.FC = () => {
     try {
       try {
         for (const transaction of jsonData) {
-          const { id, user, type, category, method, account, date, description, amount, timestamp } = transaction;
-          const newTransaction = { id, user, type, category, method, account, date, description, amount, };
+
+          const { id, description, paymentMethod, bank, account, amount, type, user, caterogy, date, timestamp } = transaction;
+          const newTransaction = { id, description, paymentMethod, bank, account, amount, type, user, caterogy, date, };
 
           const transactionsRef = collection(db, "transactions");
           const q: any = query(
@@ -149,6 +151,18 @@ export const Admin: React.FC = () => {
             <pre style={{ whiteSpace: "pre-wrap" }}>
               {jsonData ? JSON.stringify(jsonData, null, 2) : "No data uploaded"}
             </pre>
+          </IonCardContent>
+        </IonCard>
+
+        <IonCard>
+          <IonCardHeader>
+
+            <IonCardSubtitle>Sign Out</IonCardSubtitle>
+          </IonCardHeader>
+          <IonCardContent>
+            <IonButton expand="block" onClick={signOutUser}>
+              Sign out
+            </IonButton>
           </IonCardContent>
         </IonCard>
       </IonContent>

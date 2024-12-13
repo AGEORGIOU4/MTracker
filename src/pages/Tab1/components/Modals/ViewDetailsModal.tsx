@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import {
   IonButtons, IonButton, IonModal, IonHeader, IonContent, IonToolbar,
-  IonTitle, IonList, IonItem, IonLabel,
+  IonList, IonItem, IonLabel,
   IonGrid, IonRow, IonCol, IonIcon, IonDatetime, IonAlert,
   IonDatetimeButton,
   IonText
 } from '@ionic/react';
-import { person, wallet, pricetag, card, syncCircle, pencil, logoEuro } from 'ionicons/icons';
+import { person, wallet, pricetag, card, syncCircle, pencil, logoEuro, businessOutline, business } from 'ionicons/icons';
 import { deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../../../../auth/firebase';
 
@@ -121,13 +121,24 @@ export const ViewDetailsModal: React.FC<ModalProps> = ({ isOpen, setIsOpen, sele
                 </IonCol>
               </IonRow>
 
-              {/* Method */}
+              {/*Payment Method */}
               <IonRow>
                 <IonCol size="12">
                   <IonItem>
                     <IonIcon slot="start" icon={syncCircle} color='primary' />
-                    <IonLabel className="ion-text-wrap">Method</IonLabel>
-                    <IonText>{selectedTransaction?.method}</IonText>
+                    <IonLabel className="ion-text-wrap">Payment Method</IonLabel>
+                    <IonText>{selectedTransaction?.paymentMethod}</IonText>
+                  </IonItem>
+                </IonCol>
+              </IonRow>
+
+              {/*Bank */}
+              <IonRow>
+                <IonCol size="12">
+                  <IonItem>
+                    <IonIcon slot="start" icon={business} color='primary' />
+                    <IonLabel className="ion-text-wrap">Bank</IonLabel>
+                    <IonText>{selectedTransaction?.bank}</IonText>
                   </IonItem>
                 </IonCol>
               </IonRow>
